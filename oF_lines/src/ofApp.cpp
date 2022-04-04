@@ -33,8 +33,8 @@ void ofApp::setup(){
 //    //min is 0 for all of them, max is 255 for all of them
     
     sliderGroup.setName("sliders");
-    sliderGroup.add(intSlider.set("int slider", 3, 3, 64));
-    sliderGroup.add(floatSlider.set("float slider", 32, 32, 256));
+    sliderGroup.add(intSlider.set("int slider", 3, 3, 64));//thickness of lines
+    sliderGroup.add(floatSlider.set("float slider", 32, 32, 256));//
     
     circle.setup();//setting cirle
     
@@ -71,7 +71,6 @@ void ofApp::draw(){
 //    ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
 //
 //    gui.draw();
-    
     
     
     ofSetColor(circle.colors->x, circle.colors->y, circle.colors->z);
