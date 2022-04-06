@@ -1,4 +1,4 @@
-# oF_lines
+# Light at the end of the tunnel
 An openFrameworks app that makes a drawing with lines and points that can be controlled by sliders.
 
 In my applicattion, there are 2 different sliders:
