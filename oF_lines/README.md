@@ -10,6 +10,7 @@ Using sliders under tha label "Distribution", we can increase and decrease the n
 The color of those 2 groups of lines is controlled by the sliders located under the label "Colors". The x, y, and z values of those sliders correspond to R, G ,B values, respectively.
 
 
-/Users/symbat/Desktop
+![plot] /Users/symbat/Desktop/image1.png
+
 
 
