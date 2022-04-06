@@ -32,16 +32,27 @@ void ofApp::setup(){
 //
 //    //min is 0 for all of them, max is 255 for all of them
     
-    sliderGroup.setName("sliders");
-    sliderGroup.add(intSlider.set("int slider", 3, 3, 64));//thickness of lines
-    sliderGroup.add(floatSlider.set("float slider", 32, 32, 256));//
+    intSliderGroup.setName("Distribution");
+    intSliderGroup.add(intSlider1.set("Lines 1", 50, 0, ofGetWidth()/2));//length of line - x component
+    intSliderGroup.add(intSlider2.set("Lines 2", 50, 0, ofGetWidth()/2));//length of line - y component
     
-    circle.setup();//setting cirle
+    floatSliderGroup.setName("Thickness");
+    floatSliderGroup.add(floatSlider1.set("Lines 1", 5, 1, 20));//thickness of line
+    floatSliderGroup.add(floatSlider2.set("Lines 1", 5, 1, 20));//thickness of line
     
-    mainGroup.add(circle.params);//main group includes circle parameters
-    mainGroup.add(sliderGroup);//main group also includes slider group ,consisting of int clider and float slider, as well
+    
+    params.setName("Colors");
+    params.add(color1.set("Lines 1", ofVec3f(100,130,160), ofVec3f(0,0,0), ofVec3f(255,255,255)));
+    
+    params.add(color2.set("Lines 2", ofVec3f(100,130,160), ofVec3f(0,0,0), ofVec3f(255,255,255)));
+    
+    //circle.setup();//setting cirle
+    //mainGroup.add(circle.params);//main group includes circle parameters
     
     
+    mainGroup.add(intSliderGroup);
+    mainGroup.add(floatSliderGroup);
+    mainGroup.add(params);
     gui.setup(mainGroup);//insert main group into the gui
     
     
@@ -51,7 +62,7 @@ void ofApp::setup(){
 void ofApp::update(){
     //myLine.addVertex(ofRandom(ofGetHeight()),ofRandom(ofGetWidth()));
     
-    ofSetCircleResolution(intSlider);
+    ofSetCircleResolution(intSlider1);
 }
 
 //--------------------------------------------------------------
@@ -73,9 +84,36 @@ void ofApp::draw(){
 //    gui.draw();
     
     
-    ofSetColor(circle.colors->x, circle.colors->y, circle.colors->z);
+    //ofSetColor(circle.color1->x, circle.color1->y, circle.color1->z);
+    ofSetColor(color1->x,color1->y,color1->z);
+    ofSetLineWidth(floatSlider1);
     
-    ofDrawCircle(circle.x, circle.y, floatSlider);
+    ofDrawLine(0,ofGetHeight()/2,ofGetWidth(),ofGetHeight()/2);
+    ofDrawLine(0,ofGetHeight()/2-intSlider1,ofGetWidth(),ofGetHeight()/2-intSlider1);
+    ofDrawLine(0,ofGetHeight()/2+intSlider1,ofGetWidth(),ofGetHeight()/2+intSlider1);
+    ofDrawLine(0,ofGetHeight()/2-2*intSlider1,ofGetWidth(),ofGetHeight()/2-2*intSlider1);
+    ofDrawLine(0,ofGetHeight()/2+2*intSlider1,ofGetWidth(),ofGetHeight()/2+2*intSlider1);
+    
+    
+    //ofSetColor(circle.color2->x, circle.color2->y, circle.color2->z);
+    ofSetColor(color2->x, color2->y, color2->z);
+    ofSetLineWidth(floatSlider2);
+    
+    ofDrawLine(0,ofGetHeight(),ofGetWidth(),0);
+    ofDrawLine(0,ofGetHeight()-intSlider2,ofGetWidth()-intSlider2,0);
+    ofDrawLine(0,ofGetHeight()-2*intSlider2,ofGetWidth()-2*intSlider2,0);
+    ofDrawLine(0+intSlider2,ofGetHeight(),ofGetWidth(),0+intSlider2);
+    ofDrawLine(0+2*intSlider2,ofGetHeight(),ofGetWidth(),0+2*intSlider2);
+    
+//
+//    ofDrawLine(ofGetWidth()/6+20,ofGetHeight()/2,2*(ofGetWidth()/6+20),ofGetHeight()/2);
+//    ofDrawLine(ofGetWidth()/6+20,ofGetHeight()/2-intSlider3,2*(ofGetWidth()/6+20),ofGetHeight()/2-intSlider3);
+//    ofDrawLine(ofGetWidth()/6+20,ofGetHeight()/2+intSlider3,2*(ofGetWidth()/6+20),ofGetHeight()/2+intSlider3);
+//    ofDrawLine(ofGetWidth()/6+20,ofGetHeight()/2-2*intSlider3,2*(ofGetWidth()/6+20),ofGetHeight()/2-2*intSlider3);
+//    ofDrawLine(ofGetWidth()/6+20,ofGetHeight()/2+2*intSlider3,2*(ofGetWidth()/6+20),ofGetHeight()/2+2*intSlider3);
+    
+    //WHAT TO UPDATE/ADD: fix the issue with liens made by slider2; lower the opacity of colors; make two diferent controllers of the thickness; OPTIONAL-add maybe a third line
+    
     
     gui.draw();
 }
