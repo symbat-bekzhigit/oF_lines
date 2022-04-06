@@ -15,7 +15,8 @@ public:
     void setup();
     
     ofParameterGroup params;
-    ofParameter<ofVec3f> colors;//we'll have 3 sliders for colors
+    ofParameter<ofVec3f> color1;//we'll have 3 sliders for colors
+    ofParameter<ofVec3f> color2;
     ofParameter<int> x;
     ofParameter<int> y;
 };
