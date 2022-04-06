@@ -1,5 +1,6 @@
 # Light at the end of the tunnel
-An openFrameworks app that makes a drawing with lines and points that can be controlled by sliders.
+
+This is openFrameworks application that makes a drawing with lines and points that can be controlled by sliders. The way the lines interact under certain parameters creates the feeling of being in a 3d space - something similar to a tunnel - and the dense distribution of those lines near the center results in a bright spot rectangular right at the center of the window, that's why I decided to name the project 'Light at the end of the tunnel'.
 
 In my applicattion, there are 2 different sliders:
 - sliders which control the number of lines
@@ -11,8 +12,6 @@ The color of those two groups of lines is controlled by the sliders located unde
 
 Sometimes those two groups of lines can overlap, and sometimes they work along to create a perfect rectangle.
 
-![](bin/data/image1.png)
-
 ![](bin/data/image2.png)
 
-
+![](bin/data/image1.png)
