@@ -46,11 +46,20 @@ class ofApp : public ofBaseApp{
     
    //-------------------
     ofxPanel gui;
-    ofParameterGroup sliderGroup;
-    ofParameter<int> intSlider;
-    ofParameter<float> floatSlider;
+    ofParameterGroup intSliderGroup;
+    ofParameter<int> intSlider1;
+    ofParameter<int> intSlider2;
+  
+    ofParameterGroup floatSliderGroup;
+    ofParameter<float> floatSlider1;
+    ofParameter<float> floatSlider2;
+
     
-    Circle circle;
+    ofParameterGroup params;
+    ofParameter<ofVec3f> color1;
+    ofParameter<ofVec3f> color2;
+    
+    //Circle circle;
     ofParameterGroup mainGroup;
     
     
