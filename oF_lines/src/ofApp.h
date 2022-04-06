@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-#include "Circle.hpp"//allows access circle class
+
 
 class ofApp : public ofBaseApp{
 
