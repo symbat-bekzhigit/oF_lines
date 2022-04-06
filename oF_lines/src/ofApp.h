@@ -25,23 +25,15 @@ class ofApp : public ofBaseApp{
     
 
     ofxPanel gui;
-    ofParameterGroup intSliderGroup;
+    
+    ofParameterGroup intSliderGroup;//distribution
     ofParameter<int> intSlider1;
     ofParameter<int> intSlider2;
-  
-    ofParameterGroup floatSliderGroup;
-    ofParameter<float> floatSlider1;
-    ofParameter<float> floatSlider2;
 
-    
-    ofParameterGroup params;
-    ofParameter<ofVec3f> color1;
-    ofParameter<ofVec3f> color2;
-    ofParameter<ofVec3f> color3;
-    
+    ofParameterGroup params;//colors
+    ofParameter<ofVec3f> color1;//lines 1
+    ofParameter<ofVec3f> color2;//lines 2
+  
     ofParameterGroup mainGroup;
     
-    
-    
-		
 };
