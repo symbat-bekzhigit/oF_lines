@@ -7,9 +7,9 @@ In my applicattion, there are 2 different sliders:
 
 Using sliders under the label "Distribution", we can increase and decrease the number of lines. All the lines originate from the center, however, while the first slider draws lines that are spreading horizontally, the second slider draws lines that are spreading vertically.
 
-The color of those 2 groups of lines is controlled by the sliders located under the label "Colors". The x, y,and z values of those sliders correspond to R, G ,B values, respectively.
+The color of those two groups of lines is controlled by the sliders located under the label "Colors". The x, y,and z values of those sliders correspond to R, G ,B values, respectively.
 
-Sometimes those two groups of lines can overlap, and sometimes they work along to create a rectangle.
+Sometimes those two groups of lines can overlap, and sometimes they work along to create a perfect rectangle.
 
 ![](bin/data/image1.png)
 
