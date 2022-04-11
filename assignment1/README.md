@@ -9,6 +9,9 @@ At the very early stage of my branistorming, I searched the internet for differe
 
 Then, I continued browsing through the examples and concepts provided in our Weekly Schedule, and something clicked when I stumbled upon the project called ["trigonometryExample"](https://github.com/openframeworks/openFrameworks/tree/master/examples/math/trigonometryExample) from week 4. After seeing how a small cyan circle moved along the larger yellow circle, I suddenly got an idea of making a solar system, where every planet moves around the Sun along a fixed orbit, just as a cyan circle moves along the circumference of the yellow circle.
 
+*My brainstorming process*
+
+
 ***
 ***How my progress looked like?***
 
@@ -27,18 +30,20 @@ For each of the planets, I decided to give the user a chance to get colors that 
 
 I also added sliders that control the color of the orbits as well as their opacity, while for the stars, one group of stars are yellow while the other group has the same color as the color of the orbits.
 
-***What I want to improve?***
+***
+***What I would like to improve?***
 
-I'm more or less content with what I have now but if I had more time to work on this project, I would have added sliders that allow user to control the sun-planet proportion or increase/decrease their size proportionally. I was also thinking of adding a slider that will allow the user to change the inclination of the solar system as a whole. 
-As for the stars, since I added them at the very end, I didn't have much time to work on making them look more realistic and interestin. The first thing that I would work on if the deadline was not passing would be fixing stars' positions instead of making them appear at the random place evey time draw() function is run. I also think it would be a good idea to add a milky way somehwere in the background by making the stars cluster around a certain point. If I had more time and if the academic workload coming from other courses was not so heavy, I would have worked on incorporating these chnages to my project, so that the user could have been able to get more interesting models of solar system. 
+I am more or less content with what I have now but if I had more time to work on this project, I would have added sliders that allow user to control the Sun-Planet proportion or increase/decrease their size proportionally. I was also thinking of adding a slider that will allow the user to change the inclination of the solar system as a whole. 
+As for the stars, since I added them at the very end, I didn't have much time to work on making them look more realistic and interesting. If I had time, I would work on fixing stars' positions instead of making them appear at the random place evey time draw() function is run. I also think it would be a good idea to add a Milky Way somehwere in the background by making the stars cluster around a certain point. If I had more time and if the academic workload coming from other courses was not so heavy, I would have worked on incorporating these chnages to my project, so that the user could have been able to get more interesting models of solar system. 
 
-Theme: Traditional Solar System
+Below are the screenshots of my Solar system under different parameters.
 
+*Theme: Traditional Solar System*
 
-Theme: Darkened planets in a brighter space
+*Theme: Darkened planets in a brighter space*
 
-Theme: Darkened planets in a darker space
+*Theme: Darkened planets in a darker space*
 
-Theme: Pink space
+*Theme: Pink space*
 
 
