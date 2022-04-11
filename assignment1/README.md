@@ -1,6 +1,6 @@
 # Assignment 1 - "Solar System"
 
-For this assignment, since the main goal was to use shapes and colors in a way that together they communicate something more, I decided to make a layout of the Solar System. 
+For this assignment, since the main goal was to use shapes and colors in such a way that together they communicate something more, I decided to make a model of the Solar System.
 
 ***
 ***How I came up with this idea?***
