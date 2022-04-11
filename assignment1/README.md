@@ -24,10 +24,6 @@ Initially, I drew planets as circles using ofDrawCircle() function. But then I d
 For the planets, I followed a similar logic, but this time, instead of taking boundary of a circle as a starting point and ending point for a line, I took the center of the circle as a starting point and the boundary as an ending point. As a final step, since the space behind the solar system looked a bit empty, I've added some twinkling stars that I drew using the ofGetRandom() and ofNoise() funstions.
 
 
-*My brainstorming process*
-
-![](bin/data/image1.jpeg)
-
 ***
 ***Color***
 
@@ -47,10 +43,16 @@ Below are the screenshots of my Solar system under different parameters.
 
 *Theme: Traditional Solar System*
 
+![](bin/data/image2.png)
+
 *Theme: Darkened planets in a brighter space*
+
+![](bin/data/image3.png)
 
 *Theme: Darkened planets in a darker space*
 
+![](bin/data/image4.png)
+
 *Theme: Pink space*
 
-
+![](bin/data/image5.png)
