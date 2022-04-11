@@ -21,9 +21,6 @@ void ofApp::setup(){
     radiusPlanet = 25;
     ofSetCircleResolution(100);
     
-//    intSliderGroup.setName("Distribution");
-//    intSliderGroup.add(intSlider1.set("Lines 1",395, 1, 500));
-//    intSliderGroup.add(intSlider2.set("Lines 2", 301, 1, 500));
 
     params.setName("Colors");
     params.add(color.set("Sun", ofVec3f(200,150,255), ofVec3f(0,0,0), ofVec3f(255,255,255)));
@@ -39,7 +36,6 @@ void ofApp::setup(){
     params.add(color8.set("Neptun", ofVec3f(50,150,255), ofVec3f(0,0,0), ofVec3f(255,255,255)));
 
     
-    
     mainGroup.add(params);//insert params into the main group
     gui.setup(mainGroup);//insert main group into the gui
     
@@ -47,9 +43,9 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    //press the mouse to stop the angle from incrementing.
     
-    angle1+=rotationSpeed;//at each update the angle gets incremented
+    //at each update the angle gets incremented
+    angle1+=rotationSpeed;
     angle2= angle2+rotationSpeed;
     angle3= angle3+rotationSpeed;
     angle4= angle4+rotationSpeed;
@@ -59,7 +55,6 @@ void ofApp::update(){
     angle8= angle8+rotationSpeed;
     
     //if the angle is more than or equal to two PI (a full rotation measured in Radians) then make it zero.
-    //angle = ofWrap(angle, 0, TWO_PI);
     angle1 = ofWrap(angle1, 0, TWO_PI);
     angle2 = ofWrap(angle2, 0, TWO_PI);
     angle3 = ofWrap(angle3, 0, TWO_PI);
@@ -70,7 +65,6 @@ void ofApp::update(){
     angle8 = ofWrap(angle8, 0, TWO_PI);
     
     //here we set the planets' position
-   // point = {cos(angle) * radius, sin(angle) * radius};
     point1 = { ofGetWidth()/2 + cos(angle1) * a, ofGetHeight()/2 + sin(angle1) * b };
     point2 = { ofGetWidth()/2 + cos(angle2) * a * 1.2, ofGetHeight()/2 + sin(angle2) * b * 1.2 };
     point3 = { ofGetWidth()/2 + cos(angle3) * a * 1.4, ofGetHeight()/2 + sin(angle3) * b * 1.4 };
@@ -86,12 +80,8 @@ void ofApp::update(){
 void ofApp::draw(){
     
     ofBackground(colorSpace->x,colorSpace->y,colorSpace->z);
-
     
-    //draw star and milky way
-//    ofSetColor(255);
-//    ofDrawLine(200, 200, ofSignedNoise(100), ofSignedNoise(200));
-    
+    //draw stars
     for(int i=0; i<10; i++)
     {
         ofSetColor(colorOrbits->x, colorOrbits->y, colorOrbits->z);
@@ -117,9 +107,9 @@ void ofApp::draw(){
     ofDrawEllipse(ofGetWidth()/2, ofGetHeight()/2,2*a*2.4,2*b*2.4);
 
     
+    //sun
     for (int i=0; i<40; i++)
     {
-        //sun
         ofSetColor(255,color->x,66);
         angleSun1  = ofRandom(0,TWO_PI);
         angleSun2  = ofRandom(0,TWO_PI);
@@ -178,26 +168,26 @@ void ofApp::draw(){
         
         //mars
 
-        ofSetColor(color4->x,10,10);//red varying
+        ofSetColor(color4->x,10,10);
         ofDrawLine(point4.x, point4.y, point4.x + radiusPlanet * cos(anglePlanet), point4.y + radiusPlanet * sin(anglePlanet));
         
-        ofSetColor(210,color4->y,10);//brown varying
+        ofSetColor(210,color4->y,10);
         ofDrawLine(point4.x, point4.y, point4.x - radiusPlanet * cos(anglePlanet), point4.y - radiusPlanet * sin(anglePlanet));
         
-        ofSetColor(210,10,color4->z);//black varying
+        ofSetColor(210,10,color4->z);
         ofDrawLine(point4.x, point4.y, point4.x + radiusPlanet * cos(anglePlanet), point4.y - radiusPlanet * sin(anglePlanet));
         ofDrawLine(point4.x, point4.y, point4.x - radiusPlanet * cos(anglePlanet), point4.y + radiusPlanet * sin(anglePlanet));
         
         
         //jupiter
         
-        ofSetColor(color5->x,80,0);//brown
+        ofSetColor(color5->x,80,0);
         ofDrawLine(point5.x, point5.y, point5.x + radiusPlanet * cos(anglePlanet), point5.y + radiusPlanet * sin(anglePlanet));
         
-        ofSetColor(190,color5->y,0);//orange
+        ofSetColor(190,color5->y,0);
         ofDrawLine(point5.x, point5.y, point5.x - radiusPlanet * cos(anglePlanet), point5.y - radiusPlanet * sin(anglePlanet));
         
-        ofSetColor(190,80,color5->z);//beige
+        ofSetColor(190,80,color5->z);
         ofDrawLine(point5.x, point5.y, point5.x + radiusPlanet * cos(anglePlanet), point5.y - radiusPlanet * sin(anglePlanet));
         ofDrawLine(point5.x, point5.y, point5.x - radiusPlanet * cos(anglePlanet), point5.y + radiusPlanet * sin(anglePlanet));
      
