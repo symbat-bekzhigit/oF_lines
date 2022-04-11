@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-    ofSetFrameRate(80);
+    ofSetFrameRate(50);
         
     //initial values
     angle1=0;
@@ -82,7 +82,7 @@ void ofApp::draw(){
     ofBackground(colorSpace->x,colorSpace->y,colorSpace->z);
     
     //draw stars
-    for(int i=0; i<10; i++)
+    for(int i=0; i<5; i++)
     {
         ofSetColor(colorOrbits->x, colorOrbits->y, colorOrbits->z);
         ofFill();
@@ -108,7 +108,7 @@ void ofApp::draw(){
 
     
     //sun
-    for (int i=0; i<40; i++)
+    for (int i=0; i<30; i++)
     {
         ofSetColor(255,color->x,66);
         angleSun1  = ofRandom(0,TWO_PI);
