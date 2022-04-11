@@ -57,13 +57,9 @@ class ofApp : public ofBaseApp{
     glm::vec2 point8;
     
     ofxPanel gui;
-    
-//    ofParameterGroup intSliderGroup;//distribution
-//    ofParameter<int> intSlider1;//lines 1
-//    ofParameter<int> intSlider2;//lines 2
 
     ofParameterGroup params;//colors
-    ofParameter<ofVec3f> color;//sun
+    ofParameter<ofVec3f> color;
     ofParameter<ofVec3f> color1;
     ofParameter<ofVec3f> color2;
     ofParameter<ofVec3f> color3;
