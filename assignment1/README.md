@@ -9,7 +9,7 @@ At the very early stage of my branistorming, I searched the internet for differe
 
 Then, I continued browsing through the examples and concepts provided in our Weekly Schedule, and something clicked when I stumbled upon the project called ["trigonometryExample"](https://github.com/openframeworks/openFrameworks/tree/master/examples/math/trigonometryExample) from week 4. After seeing how a small cyan circle moved along the larger yellow circle, I suddenly got an idea of making a solar system, where every planet moves around the Sun along a fixed orbit, just as a cyan circle moves along the circumference of the yellow circle.
 
-*Solar system*
+*Solar system model that I followed*
 
 ![](bin/data/image6.png)
 
