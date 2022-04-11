@@ -26,7 +26,7 @@ For the planets, I followed a similar logic, but this time, instead of taking bo
 
 *My brainstorming process*
 
-![](bin/data/image1.png)
+![](bin/data/image1.jpeg)
 
 ***
 ***Color***
