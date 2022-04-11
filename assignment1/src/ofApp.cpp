@@ -54,7 +54,7 @@ void ofApp::update(){
     angle7= angle7+rotationSpeed;
     angle8= angle8+rotationSpeed;
     
-    //if the angle is more than or equal to two PI (a full rotation measured in Radians) then make it zero.
+    //if the angle is more than or equal to two PI (a full rotation measured in Radians) then make it zero
     angle1 = ofWrap(angle1, 0, TWO_PI);
     angle2 = ofWrap(angle2, 0, TWO_PI);
     angle3 = ofWrap(angle3, 0, TWO_PI);
