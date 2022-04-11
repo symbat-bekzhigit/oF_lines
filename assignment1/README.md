@@ -21,21 +21,23 @@ For the planets, I followed a similar logic, but this time, instead of taking bo
 ***
 ***Color***
 
-For the sun, I chose three different colors - yellow, orange, red - and made those three groups of lines that make up a sun represent these three colors. I've also added a slider for each of those three groups so that the user can play with it and get different concentrations of yellow, orange, and red by increasing/decreasing the corresponding sliders.
+For the sun, I chose three different colors - yellow, orange, red - and made three groups of lines that make up a sun represent these three colors. I've also added a slider for each of those three groups so that the user can play with it and get different concentrations of yellow, orange, and red by increasing/decreasing the corresponding sliders.
 
 For each of the planets, I decided to give the user a chance to get colors that vary from the planet's traditional color set, so I chose one traditional RGB color for each of the planets (i.e for Mars - red), divided the lines making up the planet into three groups, used this traditional RGB combination to set the colors of each of the groups with Red, Green, and Blue values varying in each of the groups. So, for example for the Mars, I chose (210,10,10) as a traditional color, and for each of the three grops of lines that make up Mars, I set the color as (x,10,10), (210,x,10), and (210,10,x) respectively, where x is a float varibale that can be controled by the sliders.
 
 I also added sliders that control the color of the orbits as well as their opacity, while for the stars, one group of stars are yellow while the other group has the same color as the color of the orbits.
 
 ***What I want to improve?***
-If I had more time to work on this project, I would have added sliders that allow user to control the proprotion of sun to planets or increase/decrease their size proportionally. I was also thinking of adding a slider that will allow the user to change the inclinations of the solar system as a whole. 
-As for the stars, since I added them at the every last time, I would work on fixing their positions instead of making them appear at the random place evey time draw() functions is run. I also think it would be a good idea to ad a milky way somehwere in the background by making the stars cluster around a certain point. If I had more time and if the academic workload coming from other courses was not so heavy, I would have worked on incorporating these chnages to my project, so that the user could have been able to get more interesting models of solar system. 
+I'm more or less content with what I have now but if I had more time to work on this project, I would have added sliders that allow user to control the sun-planet proportion or increase/decrease their size proportionally. I was also thinking of adding a slider that will allow the user to change the inclination of the solar system as a whole. 
+As for the stars, since I added them at the very end, I didn't have much time to work on making them look more realistic and interestin. The first thing that I would work on if the deadline was not passing would be fixing stars' positions instead of making them appear at the random place evey time draw() function is run. I also think it would be a good idea to add a milky way somehwere in the background by making the stars cluster around a certain point. If I had more time and if the academic workload coming from other courses was not so heavy, I would have worked on incorporating these chnages to my project, so that the user could have been able to get more interesting models of solar system. 
 
 Theme: Traditional Solar System
 
 
-Theme: Solar system with more darkened colors
+Theme: Darkened planets in a brighter space
 
-Screenshot 3: Rainbow Solar system
+Theme: Darkened planets in a darker space
+
+Theme: Pink space
 
 
