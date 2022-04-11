@@ -27,7 +27,7 @@ For the planets, I followed a similar logic, but this time, instead of taking bo
 ***
 ***Color***
 
-For the sun, I chose three different colors - yellow, orange, red - and made three groups of lines that make up a sun represent these three colors. I've also added a slider for each of those three groups so that the user can play with it and get different concentrations of yellow, orange, and red by increasing/decreasing the corresponding sliders. The gui with all the sliders can be enabled/disabled by pressing "g".
+For the Sun, I chose three different colors - yellow, orange, red - and made three groups of lines that make up a sun represent these three colors. I've also added a slider for each of those three groups so that the user can play with it and get different concentrations of yellow, orange, and red by increasing/decreasing the corresponding sliders. The gui with all the sliders can be enabled/disabled by pressing "g".
 
 For each of the planets, I decided to give the user a chance to get colors that vary from the planet's traditional color set, so I chose one traditional RGB color for each of the planets (i.e for Mars - red), divided the lines making up the planet into three groups, used this traditional RGB combination to set the colors of each of the groups with Red, Green, and Blue values varying in each of the groups. So, for example for the Mars, I chose (210,10,10) as a traditional color, and for each of the three grops of lines that make up Mars, I set the color as (x,10,10), (210,x,10), and (210,10,x) respectively, where x is a float varibale that can be controled by the sliders.
 
