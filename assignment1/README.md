@@ -10,6 +10,7 @@ At the very early stage of my branistorming, I searched the internet for differe
 Then, I continued browsing through the examples and concepts provided in our Weekly Schedule, and something clicked when I stumbled upon the project called ["trigonometryExample"](https://github.com/openframeworks/openFrameworks/tree/master/examples/math/trigonometryExample) from week 4. After seeing how a small cyan circle moved along the larger yellow circle, I suddenly got an idea of making a solar system, where every planet moves around the Sun along a fixed orbit, just as a cyan circle moves along the circumference of the yellow circle.
 
 *Solar system*
+
 ![](bin/data/image6.png)
 
 
@@ -21,6 +22,11 @@ As with all the big assignments, I decided to stick with the principle of "Divid
 
 Initially, I drew planets as circles using ofDrawCircle() function. But then I decided to use an idea of creating a circular shape using large numbers of straight lines, which was inspired from JunKiyoshi's work "Planter". For the Sun, I created two new float variables which will generate a random angle between 0 and TWO_PI - one of them was used as a starting point of the line while the other one - as an ending point. By putting them inside a for loop and setting parametric equations of a circles as a boundary of the max, min values for those x,y values, I was able to create a circular shape.
 For the planets, I followed a similar logic, but this time, instead of taking boundary of a circle as a starting point and ending point for a line, I took the center of the circle as a starting point and the boundary as an ending point. As a final step, since the space behind the solar system looked a bit empty, I've added some twinkling stars that I drew using the ofGetRandom() and ofNoise() funstions.
+
+
+*My brainstorming process*
+
+![](bin/data/image1.png)
 
 ***
 ***Color***
