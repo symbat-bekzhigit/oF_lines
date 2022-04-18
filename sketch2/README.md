@@ -7,3 +7,6 @@ Despite the fact that this is a fairly simple example of cyclic animation, for m
 
 Here are some screenshots from my sketch:
 
+![](bin/data/img1.png)
+
+![](bin/data/img2.png)
