@@ -21,18 +21,6 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-//    ofPoint position;
-//    float radius;
-//    ofColor circleColor;
-//    ofColor drawColor;
-    
-//    float position;
-//    float x;
-//    float y;
-//    float c1;
-//    float c2;
-//    float c3;
-    
     float angle;
     float angle2;
     
