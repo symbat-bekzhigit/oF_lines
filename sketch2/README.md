@@ -1,5 +1,4 @@
 # Sketch 2
-Code an openFrameworks app (sketch) that makes a cyclical animation
 
 In this sketch, I'm mainly relying on ofNoise() and ofGetElapsedTimef() functions to draw floating rectangles. On those rectangles, there are circlular balls that are moving on the specific sides in a cyclical motion i.e. they start from one corner and once they reach the other corner along the edge of the rectangle that they're following, their position will restart to the initial corner.
 
