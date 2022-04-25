@@ -13,7 +13,7 @@ I was just seaching through different examples of animated art made in OpenFrame
 I read thoroughly the documentation of the ofxBox2D addon and looked at all the examples provided with the documentation and played around with different parameters of the code to understand the main commands of the addon along with their main fundtions. I really liked that this addon allowed us to the physics concepts such as gravity, bounce, density, etc. into our animation.
 This assignment consists of mainly 3 main objects : ground, circle, and block. All of these objects are pushed back into the large 2d world that simulates our real world with gravitaional force, density, friction, and etc.
 
-*Ground:* As in the real life, the ground acts as a supporting line for other objects (cirlces and blocks) and this is where those objects are attracted with the gravitational force pulling them downwards. In the assignment, there are 3 levels of ground and circles and blocks can be placed on each of them.
+*Ground:* As in the real life, the ground acts as a supporting line for other objects (cirlces and blocks) and this is where those objects are attracted with the gravitational force pulling them downwards. In the assignment, there are 3 levels of ground of different width, and circles and blocks can be placed on each of them.
 
 *Circes:* Circles here simulate the wheels of the car moving on a road. They are the part of the big 2d world that means they also abide by the physics concepts such as density, friction, and bouncing. In this assigment, the circles can be created by pressing the key "c". Initially, they will be created at the location of our mouse but then they will fall to the ground under the influence of the gravitaional force. Whenever, we create a circle, we specify its physical parameters such as gravity, bounce, density. I'm using default values from the documentation examples for those parameters in my code.
 
@@ -26,7 +26,7 @@ By pressing "s", user can switch between two different levels of smoothness of t
 ***What I would like to improve?***
 If I had more time to work on this assignment, I would add options of adding more objects into our world other than circles and rectangular blocks. I would also play around with the parameters of the scrolling ground and make it change the smoothness as the time passes, not when user will press specific keyword. Same would apply to the theme of the world.
 
-Below are some screenshots of my application and here's the link to the 
+Below are some screenshots of my application and here's the link to the recording of my animation: 
 
 *Theme: Pastel*
 
