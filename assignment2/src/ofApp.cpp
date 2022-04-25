@@ -3,7 +3,7 @@
 //Title: ofxBox2D addon
 //Author: vanderlin
 //Last edited: Feb 10, 2020
-//Availability: github.com
+//From: github.com
 //.........................
 
 #include "ofApp.h"
@@ -106,12 +106,13 @@ void ofApp::draw() {
     float y = ofSignedNoise(0.1, t) * 200;
    
     float newHeight = ofGetHeight()/2 + y; //the larger the groundSpeed is, the larger the newHeight - i.e the ground gets less smooth
+    
     int n = (int)groundLine.size();
    
-    for(int i=n-1; i>=1; i--) { //the coordinate in position B will be replacing its preceding                               //coordinate(B-1) in a vector
+    for(int i=n-1; i>=1; i--) { //the y coordinate in vetex B will be replacing the y coordinate in                     its preceding vertex(B-1) in a polyline
         groundLine[i].y = groundLine[i-1].y;
     }
-    groundLine[0].y = newHeight; //the first element of a vector will be equal to new height
+    groundLine[0].y = newHeight; //the first vertex of a polyline will be replaced by new height
     
     
  
@@ -157,8 +158,7 @@ void ofApp::keyPressed(int key) {
     
     if(key == 'c') { //circle
         auto circle = make_shared<ofxBox2dCircle>();
-        circle->setPhysics(3.0, 0.53, 0.1); //density, bounce, friction
-        //changing friction and density doesn't really play a huge role here because those concepts are not utilized in this system
+        circle->setPhysics(3.0, 0.53, 0.1); //density, bounce, frictionx
         circle->setup(box2d.getWorld(), mouseX, mouseY, ofRandom(20, 50));
         circles.push_back(circle);
     }
