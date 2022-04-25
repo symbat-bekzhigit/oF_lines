@@ -29,3 +29,15 @@ If I had more time to work on this assignment, I would add options of adding mor
 Below are some screenshots of my application and here's the link to the 
 
 
+*Theme: Pastel*
+
+![](bin/data/img1.png)
+
+![](bin/data/img2.png)
+
+*Theme: Contrasting dark*
+
+![](bin/data/img3.png)
+
+![](bin/data/img4.png)
+
