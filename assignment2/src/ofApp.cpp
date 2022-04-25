@@ -1,5 +1,5 @@
 
-//Main logic of this application, especially the logic of creating a scrolling ground,  is referenced from the examples provided in the documentation of the ofxBox2D addon
+//Main logic of some of the functions in this code is referenced from the examples provided in the documentation of the ofxBox2D addon
 //Title: ofxBox2D addon
 //Author: vanderlin
 //Last edited: Feb 10, 2020
