@@ -4,12 +4,26 @@
 void ofApp::setup() {
     
     ofDisableAntiAliasing();
-    ofBackground(199, 206, 234);
     ofSetLogLevel(OF_LOG_NOTICE);
-    //ofSetVerticalSync(true);
+    
+    changeColors = false;
+    changeSpeed = false;
+
+    color1.r = 226;
+    color1.g = 240;
+    color1.b = 203;
+    
+    color2.r = 225;
+    color2.g = 154;
+    color2.b = 162;
+    
+    color3.r = 199;
+    color3.g = 206;
+    color3.b = 234;
     
     // scrolling ground
-    groundSpeed = 0.5;
+    k = 0.5;
+//    groundSpeed = 0.5;
     groundRes   = 30;
     
     // build the ground 1
@@ -41,6 +55,9 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
+    groundSpeed = k;
+    
+    ofBackground(color3);
     
     ofRemove(circles, ofxBox2dBaseShape::shouldRemoveOffScreen);
     ofRemove(boxes, ofxBox2dBaseShape::shouldRemoveOffScreen);
@@ -66,17 +83,22 @@ void ofApp::draw() {
     
     for(auto & circle : circles) {
         ofFill();
-        ofSetColor(226, 240, 203);
+        ofSetColor(color1);
         circle->draw();
     }
-    
+
     for(auto & box : boxes) {
         ofFill();
-        ofSetColor(255, 154, 162);
+        ofSetColor(color2);
         box->draw();
     }
-
-
+   
+//    for(auto & triangle : triangles) {
+//        ofFill();
+//        ofSetColor(255, 154, 162);
+//        triangle->draw();
+//    }
+    
     float t = ofGetElapsedTimef() * groundSpeed;
     float y = ofSignedNoise(0.1, t) * 200;
    
@@ -118,7 +140,7 @@ void ofApp::draw() {
 //    circle->setup(box2d.getWorld(), groundLine[n/2].x-100 , groundLine[n/2].y, 30);
 //    wheels.push_back(circle);
 //    circle->draw();
-    
+//
  
     ofSetColor(255);
     ground.updateShape();
@@ -132,8 +154,8 @@ void ofApp::draw() {
     string info = "";
     info += "Press [c] for circles\n";
     info += "Press [b] for blocks\n";
+    info += "Press [h] for changing the theme\n";
     info += "Total Bodies: "+ofToString(box2d.getBodyCount())+"\n";
-    info += "Total Joints: "+ofToString(box2d.getJointCount())+"\n\n";
     ofSetColor(255);
     ofDrawBitmapString(info, 30, 30);
 }
@@ -156,6 +178,67 @@ void ofApp::keyPressed(int key) {
         box->setPhysics(3.0, 0.53, 0.1);
         box->setup(box2d.getWorld(), mouseX, mouseY, w, h);
         boxes.push_back(box);
+        
+//        float a = ofRandom(10, 30);
+//        float b = ofRandom(10, 30);
+//        float c = ofRandom(10, 30);
+//
+//        auto triangle = make_shared<ofxBox2dPolygon>();
+//
+//        triangle->addTriangle((a,0), (b,0), (c,0));
+//
+//        triangle->setPhysics(1.0, 0.3, 0.3);
+//
+//        triangle->create(box2d.getWorld());
+//
+//        triangles.push_back(triangle);
+    }
+    
+    if(key == 'h') {
+        changeColors = !changeColors;
+        
+        if(changeColors)
+        {
+            color1.r = 231;
+            color1.g = 84;
+            color1.b = 102;
+            
+            color2.r = 43;
+            color2.g = 45;
+            color2.b = 66;
+            
+            color3.r = 141;
+            color3.g = 153;
+            color3.b = 174;
+        }
+        else
+        {
+            color1.r = 226;
+            color1.g = 240;
+            color1.b = 203;
+            
+            color2.r = 225;
+            color2.g = 154;
+            color2.b = 162;
+            
+            color3.r = 199;
+            color3.g = 206;
+            color3.b = 234;
+            
+        }
+    }
+    
+    if(key == 's') {
+        changeSpeed = !changeSpeed;
+        
+        if(changeSpeed)
+        {
+            k = 1.5;
+        }
+        else {
+            k = 0.5;
+        }
+        
     }
     
 }
@@ -181,7 +264,6 @@ void ofApp::mousePressed(int x, int y, int button) {
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button) {
-
 
 }
 
