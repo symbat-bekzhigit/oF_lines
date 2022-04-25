@@ -22,8 +22,7 @@ void ofApp::setup() {
     color3.b = 234;
     
     // scrolling ground
-    k = 0.5;
-//    groundSpeed = 0.5;
+    k = 0.5; //coefficient of ground speed, the less the the less smooth the surface is
     groundRes   = 30;
     
     // build the ground 1
@@ -93,22 +92,17 @@ void ofApp::draw() {
         box->draw();
     }
    
-//    for(auto & triangle : triangles) {
-//        ofFill();
-//        ofSetColor(255, 154, 162);
-//        triangle->draw();
-//    }
     
     float t = ofGetElapsedTimef() * groundSpeed;
     float y = ofSignedNoise(0.1, t) * 200;
    
-    float newHeight = ofGetHeight()/2 + y;
+    float newHeight = ofGetHeight()/2 + y; //the larger the groundSpeed is, the larger the newHeight - i.e the ground is less smooth
     int n = (int)groundLine.size();
    
-    for(int i=n-1; i>=1; i--) {
+    for(int i=n-1; i>=1; i--) { //the coordinate in position B will be replacing its preceding                               //coordinate(B-1) in a vector
         groundLine[i].y = groundLine[i-1].y;
     }
-    groundLine[0].y = newHeight;
+    groundLine[0].y = newHeight; //the first element of a vector will be equal to new height
     
     
  
@@ -129,19 +123,7 @@ void ofApp::draw() {
     }
     groundLine3[0].y = newHeight3;
 
-//    auto circle = make_shared<ofxBox2dCircle>();
-//    circle->setPhysics(3.0, 0.53, 0.1);
-//    circle->setup(box2d.getWorld(), groundLine[n/2].x, groundLine[n/2].y, 30);
-//    wheels.push_back(circle);
-//    circle->draw();
-//
-//
-//    circle->setPhysics(3.0, 0.53, 0.1);
-//    circle->setup(box2d.getWorld(), groundLine[n/2].x-100 , groundLine[n/2].y, 30);
-//    wheels.push_back(circle);
-//    circle->draw();
-//
- 
+    
     ofSetColor(255);
     ground.updateShape();
     ofSetLineWidth(1);
@@ -155,6 +137,7 @@ void ofApp::draw() {
     info += "Press [c] for circles\n";
     info += "Press [b] for blocks\n";
     info += "Press [h] for changing the theme\n";
+    info += "Press [s] for changing the smoothness\n";
     info += "Total Bodies: "+ofToString(box2d.getBodyCount())+"\n";
     ofSetColor(255);
     ofDrawBitmapString(info, 30, 30);
@@ -163,35 +146,23 @@ void ofApp::draw() {
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
     
-    if(key == 'c') {
+    if(key == 'c') { //circle
         auto circle = make_shared<ofxBox2dCircle>();
-        circle->setPhysics(3.0, 0.53, 0.1);
+        circle->setPhysics(3.0, 0.53, 0.1); //density, bounce, friction
+        //changing friction and density doesn't really play a huge role here because those concepts are not utilized in this system
         circle->setup(box2d.getWorld(), mouseX, mouseY, ofRandom(20, 50));
         circles.push_back(circle);
     }
     
     
-    if(key == 'b') {
+    if(key == 'b') { //block
         float w = ofRandom(10, 30);
         float h = ofRandom(10, 30);
         auto box = make_shared<ofxBox2dRect>();
         box->setPhysics(3.0, 0.53, 0.1);
-        box->setup(box2d.getWorld(), mouseX, mouseY, w, h);
+        box->setup(box2d.getWorld(), mouseX, mouseY, w, h); //generate box at the location of a mouse
         boxes.push_back(box);
         
-//        float a = ofRandom(10, 30);
-//        float b = ofRandom(10, 30);
-//        float c = ofRandom(10, 30);
-//
-//        auto triangle = make_shared<ofxBox2dPolygon>();
-//
-//        triangle->addTriangle((a,0), (b,0), (c,0));
-//
-//        triangle->setPhysics(1.0, 0.3, 0.3);
-//
-//        triangle->create(box2d.getWorld());
-//
-//        triangles.push_back(triangle);
     }
     
     if(key == 'h') {
