@@ -29,11 +29,25 @@ public:
     
     vector        <shared_ptr<ofxBox2dCircle> >    circles;          //    default box2d circles
     vector        <shared_ptr<ofxBox2dRect> >      boxes;
+    
+//    vector        <shared_ptr<ofxBox2dPolygon> >      triangles;
+  //  vector        <shared_ptr<ofxBox2dCircle> >      wheels;
     //    defalut box2d rects
     ofPolyline                              groundLine2;
     ofxBox2dEdge                            ground2;
     
     ofPolyline                              groundLine3;
     ofxBox2dEdge                            ground3;
+    
+    ofColor color1;
+    ofColor color2;
+    ofColor color3; //background
+    
+    bool changeColors;
+    bool changeSpeed;
+    
+    float k;
+  
+    
     
 };
