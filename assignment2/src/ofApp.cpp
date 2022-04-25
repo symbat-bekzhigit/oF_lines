@@ -1,3 +1,11 @@
+
+//Main logic of this application is referenced from the examples provided in the documentation of the ofxBox2D addon
+//Title: Documentation provided with ofxBox2D addon
+//Author: vanderlin
+//Last edited: Feb 10, 2020
+//Availability: github.com
+//.........................
+
 #include "ofApp.h"
 
 //--------------------------------------------------------------
@@ -9,21 +17,22 @@ void ofApp::setup() {
     changeColors = false;
     changeSpeed = false;
 
-    color1.r = 226;
+    color1.r = 226; //color of the circle
     color1.g = 240;
     color1.b = 203;
     
-    color2.r = 225;
+    color2.r = 225; //color of the block
     color2.g = 154;
     color2.b = 162;
     
-    color3.r = 199;
+    color3.r = 199; //background color
     color3.g = 206;
     color3.b = 234;
     
     // scrolling ground
-    k = 0.5; //coefficient of ground speed, the less the the less smooth the surface is
-    groundRes   = 30;
+    k = 0.5; //coefficient of ground smoothness, the less the coefficient is the less smooth the surface is
+    groundRes = 30; //the more the groundRes is the slower will be the rate of change of the ground
+    
     
     // build the ground 1
     for(int i=0; i<groundRes; i++) {
