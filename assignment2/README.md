@@ -24,6 +24,7 @@ By pressing "s", user can scrolling speed of the road. There is also a method ca
 
 ***
 ***What I would like to improve?***
+
 If I had more time to work on this assignment, I would add options of adding more objects into our world other than circles and rectangular blocks. I would also play around with the parameters of the scrolling ground and make it change the smoothness as the time passes, not when user will press specific keyword. Same would apply to the theme of the world.
 
 Below are some screenshots of my application and here's the link to the recording of my animation: https://youtu.be/Z427i4yACKU
