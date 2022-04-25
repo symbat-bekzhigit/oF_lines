@@ -1,6 +1,6 @@
 
-//Main logic of this application is referenced from the examples provided in the documentation of the ofxBox2D addon
-//Title: Documentation provided with ofxBox2D addon
+//Main logic of this application, especially the logic of creating a scrolling ground,  is referenced from the examples provided in the documentation of the ofxBox2D addon
+//Title: ofxBox2D addon
 //Author: vanderlin
 //Last edited: Feb 10, 2020
 //Availability: github.com
@@ -30,8 +30,8 @@ void ofApp::setup() {
     color3.b = 234;
     
     // scrolling ground
-    k = 0.5; //coefficient of ground smoothness, the less the coefficient is the less smooth the surface is
-    groundRes = 30; //the more the groundRes is the slower will be the rate of change of the ground
+    k = 0.5; //k is the coefficient of ground speed, the more the coefficient is the greater is the speed hence the surface will be changing faster making it look like it got more rough
+    groundRes = 30; //the greater the groundRes is the more rough the ground will be
     
     
     // build the ground 1
@@ -105,7 +105,7 @@ void ofApp::draw() {
     float t = ofGetElapsedTimef() * groundSpeed;
     float y = ofSignedNoise(0.1, t) * 200;
    
-    float newHeight = ofGetHeight()/2 + y; //the larger the groundSpeed is, the larger the newHeight - i.e the ground is less smooth
+    float newHeight = ofGetHeight()/2 + y; //the larger the groundSpeed is, the larger the newHeight - i.e the ground gets less smooth
     int n = (int)groundLine.size();
    
     for(int i=n-1; i>=1; i--) { //the coordinate in position B will be replacing its preceding                               //coordinate(B-1) in a vector
@@ -146,7 +146,7 @@ void ofApp::draw() {
     info += "Press [c] for circles\n";
     info += "Press [b] for blocks\n";
     info += "Press [h] for changing the theme\n";
-    info += "Press [s] for changing the smoothness\n";
+    info += "Press [s] for changing the speed\n";
     info += "Total Bodies: "+ofToString(box2d.getBodyCount())+"\n";
     ofSetColor(255);
     ofDrawBitmapString(info, 30, 30);
