@@ -109,7 +109,7 @@ void ofApp::draw() {
     
     int n = (int)groundLine.size();
    
-    for(int i=n-1; i>=1; i--) { //the y coordinate in vetex B will be replacing the y coordinate in                     its preceding vertex(B-1) in a polyline
+    for(int i=n-1; i>=1; i--) { //the y coordinate in vertex B will be replacing the y coordinate in   its preceding vertex(B-1) in a polyline
         groundLine[i].y = groundLine[i-1].y;
     }
     groundLine[0].y = newHeight; //the first vertex of a polyline will be replaced by new height
