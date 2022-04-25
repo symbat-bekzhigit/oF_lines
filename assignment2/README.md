@@ -1,4 +1,4 @@
-# Assignment 2 
+# Assignment 2 - Motion
 
 For this assignment, since the main goal was to focus on the concepts of motion I decided to make a little animation consisting of circles and blocks moving along the path by relying on the physics concepts of real life.
 
