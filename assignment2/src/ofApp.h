@@ -19,25 +19,22 @@ public:
     void mouseReleased(int x, int y, int button);
     void resized(int w, int h);
     
-    int                                     groundRes;
-    float                                   groundSpeed;
+    int groundRes;
+    float groundSpeed;
 
     
-    ofxBox2d                                box2d;
-    ofPolyline                              groundLine;
-    ofxBox2dEdge                            ground;
+    ofxBox2d box2d;
+    ofPolyline groundLine;
+    ofxBox2dEdge ground;
     
-    vector        <shared_ptr<ofxBox2dCircle> >    circles;          //    default box2d circles
-    vector        <shared_ptr<ofxBox2dRect> >      boxes;
+    vector <shared_ptr<ofxBox2dCircle> > circles;
+    vector <shared_ptr<ofxBox2dRect> > boxes;
+
+    ofPolyline groundLine2;
+    ofxBox2dEdge ground2;
     
-//    vector        <shared_ptr<ofxBox2dPolygon> >      triangles;
-  //  vector        <shared_ptr<ofxBox2dCircle> >      wheels;
-    //    defalut box2d rects
-    ofPolyline                              groundLine2;
-    ofxBox2dEdge                            ground2;
-    
-    ofPolyline                              groundLine3;
-    ofxBox2dEdge                            ground3;
+    ofPolyline groundLine3;
+    ofxBox2dEdge ground3;
     
     ofColor color1;
     ofColor color2;
@@ -48,6 +45,5 @@ public:
     
     float k;
   
-    
     
 };
