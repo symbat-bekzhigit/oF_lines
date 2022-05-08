@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxBox2d.h"
 
 class ofApp : public ofBaseApp{
 
@@ -20,5 +21,20 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+    
+    bool                                  breakupIntoTriangles;
+    bool                                  bFill;
+    ofPolyline                            shape;
+    ofxBox2d                              box2d;
+    vector <shared_ptr<ofxBox2dCircle>>   circles;
+    vector <shared_ptr<ofxBox2dPolygon>>  polyShapes;
+    
+    float gravityX= -1.0;
+    float gravityY= 0.0;
+    
+    bool circle1;
+    
+    
 		
 };
