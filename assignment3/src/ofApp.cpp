@@ -3,6 +3,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    
+    bottomLeft.x = 0;
+    bottomLeft.y = ofGetHeight();
+    bottomRight.x = ofGetWidth();
+    bottomRight.y = ofGetHeight();
+    
+    
+    topLeft.x = 0;
+    topLeft.y = 0;
+    topRight.x = ofGetWidth();
+    topRight.y = 0;
+    
     ofBackgroundHex(0xfdefc2);
     ofSetLogLevel(OF_LOG_NOTICE);
     ofSetVerticalSync(true);
@@ -11,7 +23,12 @@ void ofApp::setup(){
     box2d.init();
 
     box2d.createGround();
-    box2d.setFPS(60.0);
+    box2d.registerGrabbing();
+    box2d.createGround(bottomLeft, bottomRight);
+    box2d.createGround(topLeft, topRight);
+    
+    
+   // box2d.setFPS(60.0);
     //box2d.setGravity(-1, 0);
     box2d.setGravity(gravityX, gravityY);
 
@@ -21,24 +38,24 @@ void ofApp::setup(){
     protagonist.setPhysics(0.3, 1, 0.1); //density, bounce, friction
     protagonist.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
 
+    circle.setPhysics(0.3, 1, 0.1); //density, bounce, friction
+    circle.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
+
+    // register the listener so that we get the events
+    ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
+    ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
     
-//    Circle mainCircle;
-//    mainCircle.setup(200,200,50);
+     //load the 8 sfx soundfile
+    for (int i=0; i<N_SOUNDS; i++) {
+        sound[i].load("sfx/"+ofToString(i)+".mp3");
+        sound[i].setMultiPlay(true);
+        sound[i].setLoop(false);
+    }
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-//    if(circle1 ==true){
-//        gravityX=0.0;
-//        gravityY=0.0;
-//    }
-//
-//    else{
-//        gravityX=-1.0;
-//        gravityY=0.0;
-//    }
-//    box2d.setGravity(gravityX, gravityY);
 
     // remove shapes offscreen
     ofRemove(polyShapes, [](shared_ptr<ofxBox2dPolygon> shape) -> bool {
@@ -47,29 +64,34 @@ void ofApp::update(){
     ofRemove(circles, [](shared_ptr<ofxBox2dCircle> shape) -> bool {
         return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
     });
-    
-
-    
     box2d.update();
+    
+    ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
+    protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-//    circle1 = true;
-//
-//    ofSetColor(100, 100, 100);
-//    auto circle = std::make_shared<ofxBox2dCircle>();
-//    circle->setPhysics(0.3, 0.5, 0.1); //density, bounce, friction
-//    circle->setup(box2d.getWorld(),ofGetElapsedTimef() * ofGetWidth(),
-//    ofNoise(ofGetElapsedTimef()+1000) * ofGetHeight(),
-//    20);
-//    circles.push_back(circle);
-//
-//    circle1 = false;
+    for(size_t i=0; i<circles.size(); i++) {
+        ofFill();
+        SoundData * data = (SoundData*)circles[i].get()->getData();
+        
+        if(data && data->bHit) ofSetHexColor(0xff0000);
+        else ofSetHexColor(0x4ccae9);
+
+        circles[i].get()->draw();
+    }
     
     ofSetColor(255,50,50);
+    
+    protagonist.setData(new SoundData());
+    auto * sd = (SoundData*)protagonist.getData();
+    sd->soundID = ofRandom(0, N_SOUNDS);
+    sd->bHit    = false;
+    
     protagonist.draw();
+    
 
     for(auto &circle : circles) {
         ofFill();
@@ -77,11 +99,17 @@ void ofApp::draw(){
         circle->draw();
     }
     
+    for(size_t i=0; i<circles.size(); i++) {
+        ofFill();
+        SoundData * data = (SoundData*)circles[i].get()->getData();
+        
+        if(data && data->bHit) ofSetHexColor(0xff0000);
+        else ofSetHexColor(0x4ccae9);
+        
+
+        circles[i].get()->draw();
+    }
     
-//    ofSetColor(100, 100, 100);
-//    ofDrawCircle(ofNoise(ofGetElapsedTimef()) * ofGetWidth(),
-//                        ofNoise(ofGetElapsedTimef()+1000) * ofGetHeight(),
-//                        20);
 }
 
 //--------------------------------------------------------------
@@ -89,9 +117,54 @@ void ofApp::keyPressed(int key){
     if(key == '1') {
         auto circle = std::make_shared<ofxBox2dCircle>();
         circle->setPhysics(0.3, 0.5, 0.1); //density, bounce, friction
-        
         circle->setup(box2d.getWorld(), mouseX, mouseY, ofRandom(10, 20));
+        
+        circle->setData(new SoundData());
+        auto * sd = (SoundData*)circle->getData();
+        sd->soundID = ofRandom(0, N_SOUNDS);
+        sd->bHit    = false;
+        
         circles.push_back(circle);
+    }
+}
+
+void ofApp::contactStart(ofxBox2dContactArgs &e) {
+    if(e.a != NULL && e.b != NULL) {
+        
+        // if we collide with the ground we do not
+        // want to play a sound. this is how you do that
+        if(e.a->GetType() == b2Shape::e_circle && e.b->GetType() == b2Shape::e_circle) {
+            
+            SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
+            SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+            
+            if(aData) {
+                aData->bHit = true;
+                sound[aData->soundID].play();
+            }
+            
+            if(bData) {
+                bData->bHit = true;
+                sound[bData->soundID].play();
+            }
+        }
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::contactEnd(ofxBox2dContactArgs &e) {
+    if(e.a != NULL && e.b != NULL) {
+        
+        SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
+        SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+
+        if(aData) {
+            aData->bHit = false;
+        }
+
+        if(bData) {
+            bData->bHit = false;
+        }
     }
 }
 
