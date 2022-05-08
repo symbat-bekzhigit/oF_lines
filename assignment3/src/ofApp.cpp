@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "circle.hpp"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -17,7 +18,12 @@ void ofApp::setup(){
     breakupIntoTriangles = true;
     bFill = false;
     
-    //Circle mainCircle;
+    protagonist.setPhysics(0.3, 1, 0.1); //density, bounce, friction
+    protagonist.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
+
+    
+//    Circle mainCircle;
+//    mainCircle.setup(200,200,50);
     
 }
 
@@ -42,6 +48,8 @@ void ofApp::update(){
         return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
     });
     
+
+    
     box2d.update();
 }
 
@@ -60,6 +68,9 @@ void ofApp::draw(){
 //
 //    circle1 = false;
     
+    ofSetColor(255,50,50);
+    protagonist.draw();
+
     for(auto &circle : circles) {
         ofFill();
         ofSetHexColor(0xc0dd3b);
@@ -67,10 +78,10 @@ void ofApp::draw(){
     }
     
     
-    ofSetColor(100, 100, 100);
-    ofDrawCircle(ofNoise(ofGetElapsedTimef()) * ofGetWidth(),
-                        ofNoise(ofGetElapsedTimef()+1000) * ofGetHeight(),
-                        20);
+//    ofSetColor(100, 100, 100);
+//    ofDrawCircle(ofNoise(ofGetElapsedTimef()) * ofGetWidth(),
+//                        ofNoise(ofGetElapsedTimef()+1000) * ofGetHeight(),
+//                        20);
 }
 
 //--------------------------------------------------------------
