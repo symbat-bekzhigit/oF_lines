@@ -30,6 +30,8 @@ class ofApp : public ofBaseApp{
     vector <shared_ptr<ofxBox2dCircle>>   circles;
     vector <shared_ptr<ofxBox2dPolygon>>  polyShapes;
     
+    ofxBox2dCircle protagonist;
+    
     float gravityX= -1.0;
     float gravityY= 0.0;
     
