@@ -41,6 +41,8 @@ void ofApp::setup(){
     circle.setPhysics(0.3, 1, 0.1); //density, bounce, friction
     circle.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
 
+    
+    ///////////////////////////////// start
     // register the listener so that we get the events
     ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
     ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
@@ -52,80 +54,13 @@ void ofApp::setup(){
         sound[i].setLoop(false);
     }
     
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-    // remove shapes offscreen
-    ofRemove(polyShapes, [](shared_ptr<ofxBox2dPolygon> shape) -> bool {
-        return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
-    });
-    ofRemove(circles, [](shared_ptr<ofxBox2dCircle> shape) -> bool {
-        return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
-    });
-    box2d.update();
-    
-    ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
-    protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-    
-    for(size_t i=0; i<circles.size(); i++) {
-        ofFill();
-        SoundData * data = (SoundData*)circles[i].get()->getData();
-        
-        if(data && data->bHit) ofSetHexColor(0xff0000);
-        else ofSetHexColor(0x4ccae9);
-
-        circles[i].get()->draw();
-    }
-    
-    ofSetColor(255,50,50);
-    
     protagonist.setData(new SoundData());
     auto * sd = (SoundData*)protagonist.getData();
     sd->soundID = ofRandom(0, N_SOUNDS);
     sd->bHit    = false;
     
-    protagonist.draw();
+    hitOnce = false;
     
-
-    for(auto &circle : circles) {
-        ofFill();
-        ofSetHexColor(0xc0dd3b);
-        circle->draw();
-    }
-    
-    for(size_t i=0; i<circles.size(); i++) {
-        ofFill();
-        SoundData * data = (SoundData*)circles[i].get()->getData();
-        
-        if(data && data->bHit) ofSetHexColor(0xff0000);
-        else ofSetHexColor(0x4ccae9);
-        
-
-        circles[i].get()->draw();
-    }
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-    if(key == '1') {
-        auto circle = std::make_shared<ofxBox2dCircle>();
-        circle->setPhysics(0.3, 0.5, 0.1); //density, bounce, friction
-        circle->setup(box2d.getWorld(), mouseX, mouseY, ofRandom(10, 20));
-        
-        circle->setData(new SoundData());
-        auto * sd = (SoundData*)circle->getData();
-        sd->soundID = ofRandom(0, N_SOUNDS);
-        sd->bHit    = false;
-        
-        circles.push_back(circle);
-    }
 }
 
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
@@ -166,6 +101,87 @@ void ofApp::contactEnd(ofxBox2dContactArgs &e) {
             bData->bHit = false;
         }
     }
+}
+
+
+//--------------------------------------------------------------
+void ofApp::update(){
+
+    // remove shapes offscreen
+    ofRemove(polyShapes, [](shared_ptr<ofxBox2dPolygon> shape) -> bool {
+        return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
+    });
+    ofRemove(circles, [](shared_ptr<ofxBox2dCircle> shape) -> bool {
+        return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
+    });
+    box2d.update();
+    
+    ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
+    protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
+    
+}
+
+//--------------------------------------------------------------
+void ofApp::draw(){
+
+    
+    ////////////// start
+//    protagonist.setData(new SoundData());
+//    auto * sd = (SoundData*)protagonist.getData();
+//    sd->soundID = ofRandom(0, N_SOUNDS);
+//    sd->bHit    = false;
+    
+    ofFill();
+    ofSetColor(255, 255, 255);
+    SoundData * data = (SoundData*)protagonist.getData();
+    if(data && data->bHit)  ofSetHexColor(0xc0dd3b);
+    else ofSetHexColor(0xff0000);
+    
+    protagonist.draw();
+
+    ///////////////////end
+    
+    
+   // protagonist.draw()
+    
+//    for(auto &circle : circles) {
+//        ofFill();
+//        ofSetHexColor(0xc0dd3b);
+//        circle->draw();
+//    }
+//
+    
+    ////////////////////////start
+    
+    for(auto &circle : circles) {
+        ofFill();
+//        SoundData * data = (SoundData*)circle.get()->getData();
+//
+//        if(data && data->bHit) ofSetHexColor(0xff0000);
+//        else ofSetHexColor(0x4ccae9);
+        ofSetHexColor(0xc0dd3b);
+        circle->draw();
+    }
+    ///////////////////end
+}
+
+//--------------------------------------------------------------
+void ofApp::keyPressed(int key){
+    if(key == '1') {
+        auto circle = std::make_shared<ofxBox2dCircle>();
+        circle->setPhysics(0.3, 0.5, 0.1); //density, bounce, friction
+        circle->setup(box2d.getWorld(), mouseX, mouseY, ofRandom(10, 20));
+        
+        circle->setData(new SoundData());
+        auto * sd = (SoundData*)circle->getData();
+        sd->soundID = ofRandom(0, N_SOUNDS);
+        sd->bHit    = false;
+        
+        circles.push_back(circle);
+    }
+    
+    if(key == '2') box2d.enableEvents();
+    if(key == '3') box2d.disableEvents();
 }
 
 //--------------------------------------------------------------
