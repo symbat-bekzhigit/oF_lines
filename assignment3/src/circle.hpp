@@ -12,10 +12,17 @@
 
 class Circle {
 public:
+//    void setup();
+//    ofParameterGroup params;
+//    ofParameter<ofVec3f> colors;//we'll have 3 sliders for colors
+//    int x;
+//    int y;
+//    int radius;
+
     int x;
     int y;
     int radius;
-    void setup();
+    void setup(int x, int y, int r);
 };
 
 
