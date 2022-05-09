@@ -95,6 +95,7 @@ void ofApp::setup(){
     
     
     changeTheme = false;
+    finalStage = false;
     
 }
 
@@ -188,6 +189,8 @@ void ofApp::update(){
         return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
     });
     
+   
+    
  
     box2d.update();
     
@@ -250,8 +253,8 @@ void ofApp::update(){
         //randomly appearing rectangles
         if((int)ofRandom(0, 100) == 0) {
             
-            float w = ofRandom(10, 30);
-            float h = ofRandom(10, 30);
+            float w = ofRandom(10, 40);
+            float h = ofRandom(10, 40);
             auto rect = std::make_shared<ofxBox2dRect>();
             rect->setPhysics(3.0, 0.1, 0.9);
             rect->setup(box2d.getWorld(), ofGetWidth()-radius, ofRandom(ofGetHeight()), w, h);
@@ -292,6 +295,47 @@ void ofApp::update(){
         joints.push_back(joint);
         
         data->bHit = false; //sometimes when the contact is too long, it will keep adding new joints, so i chnage bhit to false
+    }
+    
+    //phase 3
+    if(finalStage == true)
+    {
+    
+        for (int i=0; i<joints.size(); i++) {
+            joints.pop_back();
+        }
+        
+        
+        
+//        ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
+//        float minDis = ofGetMousePressed() ? 300 : 200;
+//
+//        for(auto &circle : circlesForJoints) {
+//            float dis = mouse.distance(circle->getPosition());
+//
+//            if(dis < minDis) {
+//                circle->addRepulsionForce(mouse, 1.2);
+//            }
+//            else {
+//                circle->addAttractionPoint(mouse, 1.0);
+//            }
+//        }
+        
+        
+        ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
+        float minDis = ofGetMousePressed() ? 300 : 200;
+        
+        for(auto &circle : circlesForJoints) {
+            float dis = mouse.distance(circle->getPosition());
+            
+            if(dis < minDis) {
+                circle->addRepulsionForce(mouse, 1.2);
+            }
+            else {
+                circle->addAttractionPoint(mouse, 1.0);
+            }
+        }
+
     }
 }
 
@@ -416,6 +460,10 @@ void ofApp::keyPressed(int key){
 //    }
     if(key == 'w'){
         changeTheme = !changeTheme;
+    }
+    
+    if(key == 'f'){
+        finalStage = true;
     }
     
 }
