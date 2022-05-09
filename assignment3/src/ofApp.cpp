@@ -237,8 +237,6 @@ void ofApp::draw(){
 //        else ofSetColor(colors[data->colorID]);
         
         ofSetColor(colors[data->colorID]);
-//        ofSetHexColor(0xc0dd3b);
-        //ofSetColor(colors[index]);
         circles[i].get()->draw();
         
     }
