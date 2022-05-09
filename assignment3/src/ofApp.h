@@ -86,6 +86,7 @@ class ofApp : public ofBaseApp{
     vector <shared_ptr<ofxBox2dCircle>> circlesForJoints;
     
     shared_ptr<ofxBox2dCircle> pointerToProtagonist;
+    bool changeTheme;
     
 		
 };
