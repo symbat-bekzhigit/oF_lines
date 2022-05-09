@@ -33,10 +33,9 @@ void ofApp::setup(){
     
     protagonist.setPhysics(0.3, 0.1, 0.1); //density, bounce, friction
     protagonist.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
-//
-//    circle.setPhysics(0.3, 1, 0.1); //density, bounce, friction
-//    circle.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
 
+    
+    
     //phase 1 setup
     // register the listener so that we get the events
     ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
@@ -56,12 +55,6 @@ void ofApp::setup(){
         
     }
     
-//    protagonist.setData(new SoundData());
-//    auto * sd = (SoundData*)protagonist.getData();
-//    sd->soundID = ofRandom(0, N_SOUNDS);
-//    sd->bHit    = false;
-//
-//    hitOnce = false;
     
     protagonist.setData(new ColorData());
     auto * sd = (ColorData*)protagonist.getData();
@@ -211,11 +204,6 @@ void ofApp::update(){
             radius = ofRandom(20, 40);
             c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
 
-    //        c->setData(new SoundData());
-    //        auto * sd = (SoundData*)c->getData();
-    //        sd->soundID = ofRandom(0, N_SOUNDS);
-    //        sd->bHit    = false;
-            
             c->setData(new ColorData());
             auto * sd = (ColorData*)c->getData();
             sd->colorID = ofRandom(0, 5);
@@ -251,11 +239,6 @@ void ofApp::update(){
             radius = ofRandom(10, 30);
             c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
 
-    //        c->setData(new SoundData());
-    //        auto * sd = (SoundData*)c->getData();
-    //        sd->soundID = ofRandom(0, N_SOUNDS);
-    //        sd->bHit    = false;
-            
             c->setData(new ColorData());
             auto * sd = (ColorData*)c->getData();
             sd->colorID = ofRandom(0, 5);
@@ -289,7 +272,6 @@ void ofApp::update(){
     {
         // add a new circle
         auto circle = make_shared<ofxBox2dCircle>();
-//        circle->setPhysics(3.0, 0.53, 0.1); (0.1, 0.1, 0.1)
         circle->setPhysics(3.0, 0.1, 0.1);
         circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
         
@@ -369,8 +351,6 @@ void ofApp::draw(){
         
     }
     
-
-  
     
     ///////////////////end
 }
@@ -384,11 +364,6 @@ void ofApp::keyPressed(int key){
         circle->setPhysics(0.3, 0.5, 0.1); //density, bounce, friction
         circle->setup(box2d.getWorld(), mouseX, mouseY, ofRandom(10, 20));
 
-//        circle->setData(new SoundData());
-//        auto * sd = (SoundData*)circle->getData();
-//        sd->soundID = ofRandom(0, N_SOUNDS);
-//        sd->bHit    = false;
-        
         circle->setData(new ColorData());
         auto * sd = (ColorData*)circle->getData();
         sd->colorID = ofRandom(0, 5);
