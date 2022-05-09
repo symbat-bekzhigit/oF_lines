@@ -67,8 +67,8 @@ class ofApp : public ofBaseApp{
     // when the ball hits we play this sound
 //    ofSoundPlayer  sound[N_SOUNDS];
     
+    //phase 1
     ofColor colors[5];
-    
     // this is the function for contacts
     void contactStart(ofxBox2dContactArgs &e);
     void contactEnd(ofxBox2dContactArgs &e);
@@ -77,7 +77,15 @@ class ofApp : public ofBaseApp{
     float radius;
     ofColor changeTo;
     int index = 0;
-    
     ofImage background1;
+    
+    
+    //phase 2
+    ofxBox2dCircle anchor;              //    fixed anchor       //
+    vector <shared_ptr<ofxBox2dJoint>> joints;
+    vector <shared_ptr<ofxBox2dCircle>> circlesForJoints;
+    
+    shared_ptr<ofxBox2dCircle> pointerToProtagonist;
+    
 		
 };
