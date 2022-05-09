@@ -305,6 +305,12 @@ void ofApp::update(){
             joints.pop_back();
         }
         
+        for (int i=0; i<circlesForJoints.size(); i++) {
+            if(circlesForJoints[i] != NULL)
+                circlesForJoints.pop_back();
+        }
+        
+        changeTheme = false;
         
         
 //        ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
@@ -321,18 +327,19 @@ void ofApp::update(){
 //            }
 //        }
         
-        
-        ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
+        //STOPPED HERE -- NEED TO FIX IT SO THAT IPROTAGONIST WILL BE ATTRACTED TO CENTRE AND CIRCLES
+       // AND TRINGLES WILL BE ATTRACTED TO PROTAGONIST...
+        ofVec2f position(protagonist.getPosition().x, protagonist.getPosition().y);
         float minDis = ofGetMousePressed() ? 300 : 200;
-        
-        for(auto &circle : circlesForJoints) {
-            float dis = mouse.distance(circle->getPosition());
-            
+
+        for(auto &circle : circles) {
+            float dis = position.distance(circle->getPosition());
+
             if(dis < minDis) {
-                circle->addRepulsionForce(mouse, 1.2);
+                circle->addRepulsionForce(position, 0.5);
             }
             else {
-                circle->addAttractionPoint(mouse, 1.0);
+                circle->addAttractionPoint(position, 1.0);
             }
         }
 
@@ -374,7 +381,7 @@ void ofApp::draw(){
         protagonist.draw();
     }
     
-    if(changeTheme == true)
+    else if(changeTheme == true)
     {
         ofFill();
         ofSetColor(255, 255, 255);
