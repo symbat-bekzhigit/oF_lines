@@ -194,51 +194,94 @@ void ofApp::update(){
     ofRemove(circles, [](shared_ptr<ofxBox2dCircle> shape) -> bool {
         return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
     });
+    
+ 
     box2d.update();
     
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
-    
-    
-    //added later monday 16:54
-    
-    //randomly appearing circles
-    if((int)ofRandom(0, 50) == 0) {
-        auto c = std::make_shared<ofxBox2dCircle>();
-        c->setPhysics(1, 0.1, 0.9);
-        radius = ofRandom(10, 30);
-        c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
 
-//        c->setData(new SoundData());
-//        auto * sd = (SoundData*)c->getData();
-//        sd->soundID = ofRandom(0, N_SOUNDS);
-//        sd->bHit    = false;
+    
+    if(changeTheme == false) //phase 1
+    {
+        //randomly appearing circles
+        if((int)ofRandom(0, 50) == 0) {
+            auto c = std::make_shared<ofxBox2dCircle>();
+            c->setPhysics(1, 0.1, 0.9);
+            radius = ofRandom(20, 40);
+            c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
+
+    //        c->setData(new SoundData());
+    //        auto * sd = (SoundData*)c->getData();
+    //        sd->soundID = ofRandom(0, N_SOUNDS);
+    //        sd->bHit    = false;
+            
+            c->setData(new ColorData());
+            auto * sd = (ColorData*)c->getData();
+            sd->colorID = ofRandom(0, 5);
+            sd->bHit    = false;
+            
+            circles.push_back(c);
+        }
         
-        c->setData(new ColorData());
-        auto * sd = (ColorData*)c->getData();
-        sd->colorID = ofRandom(0, 5);
-        sd->bHit    = false;
-        
-        circles.push_back(c);
+        //randomly appearing rectangles
+        if((int)ofRandom(0, 50) == 0) {
+            
+            float w = ofRandom(20, 60);
+            float h = ofRandom(20, 60);
+            auto rect = std::make_shared<ofxBox2dRect>();
+            rect->setPhysics(3.0, 0.1, 0.9);
+            rect->setup(box2d.getWorld(), ofGetWidth()-radius, ofRandom(ofGetHeight()), w, h);
+            
+            rect->setData(new ColorData());
+            auto * sd = (ColorData*)rect->getData();
+            sd->colorID = ofRandom(0, 5);
+            sd->bHit    = false;
+            
+            rectangles.push_back(rect);
+        }
     }
     
-    //randomly appearing rectangles
-    if((int)ofRandom(0, 50) == 0) {
+    else //phase 2
+    {
+        //randomly appearing circles
+        if((int)ofRandom(0, 150) == 0) {
+            auto c = std::make_shared<ofxBox2dCircle>();
+            c->setPhysics(1, 0.1, 0.9);
+            radius = ofRandom(10, 30);
+            c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
+
+    //        c->setData(new SoundData());
+    //        auto * sd = (SoundData*)c->getData();
+    //        sd->soundID = ofRandom(0, N_SOUNDS);
+    //        sd->bHit    = false;
+            
+            c->setData(new ColorData());
+            auto * sd = (ColorData*)c->getData();
+            sd->colorID = ofRandom(0, 5);
+            sd->bHit    = false;
+            
+            circles.push_back(c);
+        }
         
-        float w = ofRandom(14, 20);
-        float h = ofRandom(14, 20);
-        auto rect = std::make_shared<ofxBox2dRect>();
-        rect->setPhysics(3.0, 0.1, 0.9);
-        rect->setup(box2d.getWorld(), ofGetWidth()-radius, ofRandom(ofGetHeight()), w, h);
-        
-        rect->setData(new ColorData());
-        auto * sd = (ColorData*)rect->getData();
-        sd->colorID = ofRandom(0, 5);
-        sd->bHit    = false;
-        
-        rectangles.push_back(rect);
-        
+        //randomly appearing rectangles
+        if((int)ofRandom(0, 100) == 0) {
+            
+            float w = ofRandom(10, 30);
+            float h = ofRandom(10, 30);
+            auto rect = std::make_shared<ofxBox2dRect>();
+            rect->setPhysics(3.0, 0.1, 0.9);
+            rect->setup(box2d.getWorld(), ofGetWidth()-radius, ofRandom(ofGetHeight()), w, h);
+            
+            rect->setData(new ColorData());
+            auto * sd = (ColorData*)rect->getData();
+            sd->colorID = ofRandom(0, 5);
+            sd->bHit    = false;
+            
+            rectangles.push_back(rect);
+        }
     }
+  
     
     
     ColorData * data = (ColorData*)protagonist.getData();
@@ -280,10 +323,6 @@ void ofApp::draw(){
     
     for(size_t i=0; i<circles.size(); i++) {
         ofFill();
-//        SoundData * data = (SoundData*)circles[i].get()->getData();
-//        if(data && data->bHit) ofSetHexColor(0xff0000);
-//        else ofSetHexColor(0x4ccae9);
-        
         ColorData * data = (ColorData*)circles[i].get()->getData();
         ofSetColor(colors[data->colorID]);
         circles[i].get()->draw();
@@ -292,18 +331,13 @@ void ofApp::draw(){
     
     for(size_t i=0; i<rectangles.size(); i++) {
         ofFill();
-//        SoundData * data = (SoundData*)circles[i].get()->getData();
-//        if(data && data->bHit) ofSetHexColor(0xff0000);
-//        else ofSetHexColor(0x4ccae9);
-        
         ColorData * data = (ColorData*)rectangles[i].get()->getData();
         ofSetColor(colors[data->colorID]);
         rectangles[i].get()->draw();
         
     }
+
     
-//    SoundData * data = (SoundData*)protagonist.getData();
-//    if(data && data->bHit)  ofSetHexColor(0xc0dd3b);
     
     if(changeTheme == false)
     {
@@ -320,17 +354,6 @@ void ofApp::draw(){
         ofSetColor(255, 255, 255);
         protagonist.draw();
         
-//        for(auto &circle : circlesForJoints) {
-//            ofFill();
-//            ofSetHexColor(0x01b1f2);
-//            circle->draw();
-//        }
-//
-//        for(auto &joint : joints) {
-//            ofSetHexColor(0x444342);
-//            joint->draw();
-//        }
-
         for(auto &circle : circlesForJoints) {
             ofFill();
             ColorData * data = (ColorData*)circle->getData();
@@ -346,7 +369,7 @@ void ofApp::draw(){
         
     }
     
-   // protagonist.draw();
+
   
     
     ///////////////////end
