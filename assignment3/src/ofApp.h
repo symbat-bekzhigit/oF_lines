@@ -75,13 +75,9 @@ class ofApp : public ofBaseApp{
     bool hitOnce;
     
     float radius;
-    
     ofColor changeTo;
-
-    
-    
-    
     int index = 0;
     
+    ofImage background1;
 		
 };
