@@ -77,24 +77,31 @@ void ofApp::setup(){
     //phase 2 setup
 
     // first we add just a few circles
-    for (int i=0; i<2; i++) {
+    for (int i=0; i<1; i++) {
         auto circle = make_shared<ofxBox2dCircle>();
-        circle->setPhysics(3.0, 0.53, 0.1);
+        circle->setPhysics(3.0, 0.1, 0.1); //desnity,bounce,fricition
+
 //        circle->setup(box2d.getWorld(), ofGetWidth()/2, 100+(i*20), 8);
-//        circle->setup(box2d.getWorld(), protagonist.getPosition().x-8, 100+(i*20), 8);
         circle->setup(box2d.getWorld(), protagonist.getPosition().x-100, 100+(i*20), 8);
+        
+        circle->setData(new ColorData());
+        auto * sd = (ColorData*)circle->getData();
+        sd->color = changeTo;
+        sd->bHit    = false;
+        
         circlesForJoints.push_back(circle);
     }
     
     // now connect each circle with a joint
     for (int i=0; i<circlesForJoints.size(); i++) {
-//        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), i == 0 ? anchor.body : circlesForJoints[i-1]->body, circlesForJoints[i]->body);
         auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), i == 0 ? protagonist.body : circlesForJoints[i-1]->body, circlesForJoints[i]->body);
         
         joint->setLength(80);
-    
         joints.push_back(joint);
     }
+    
+    
+    changeTheme = false;
     
 }
 
@@ -206,7 +213,6 @@ void ofApp::update(){
 //        sd->bHit    = false;
         
         c->setData(new ColorData());
-    
         auto * sd = (ColorData*)c->getData();
         sd->colorID = ofRandom(0, 5);
         sd->bHit    = false;
@@ -214,22 +220,47 @@ void ofApp::update(){
         circles.push_back(c);
     }
     
-    
     index = (index+1) % 5;
+    
+    ColorData * data = (ColorData*)protagonist.getData();
+    
+    if((changeTheme == true) && data->bHit)
+    {
+        // add a new circle
+        auto circle = make_shared<ofxBox2dCircle>();
+//        circle->setPhysics(3.0, 0.53, 0.1); (0.1, 0.1, 0.1)
+        circle->setPhysics(3.0, 0.1, 0.1);
+        circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
+        
+        circle->setData(new ColorData());
+        auto * sd = (ColorData*)circle->getData();
+        sd->color = changeTo;
+        sd->bHit    = false;
+        
+        circlesForJoints.push_back(circle);
+    
+        // get this cirlce and the prev cirlce
+        int a = (int)circlesForJoints.size()-2;
+        int b = (int)circlesForJoints.size()-1;
+
+        // now connect the new circle with a joint
+        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
+        joint.get()->setLength(25);
+        joints.push_back(joint);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    ////////////////////////start
+    //start
     ofSetColor(255, 255, 255);
     background1.draw(0,0,ofGetWidth(),ofGetHeight());
 
-//    int index = 0;
+    
     for(size_t i=0; i<circles.size(); i++) {
         ofFill();
 //        SoundData * data = (SoundData*)circles[i].get()->getData();
-//
 //        if(data && data->bHit) ofSetHexColor(0xff0000);
 //        else ofSetHexColor(0x4ccae9);
         
@@ -245,29 +276,49 @@ void ofApp::draw(){
     
 //    SoundData * data = (SoundData*)protagonist.getData();
 //    if(data && data->bHit)  ofSetHexColor(0xc0dd3b);
-    ofFill();
-    ColorData * data = (ColorData*)protagonist.getData();
-    if(data && data->bHit)  ofSetColor(changeTo);
-    else ofSetColor(255, 255, 255);
     
-    protagonist.draw();
-    
-    
-    for(auto &circle : circlesForJoints) {
+    if(changeTheme == false)
+    {
         ofFill();
-        ofSetHexColor(0x01b1f2);
-        circle->draw();
+        ColorData * data = (ColorData*)protagonist.getData();
+        if(data && data->bHit)  ofSetColor(changeTo);
+        else ofSetColor(255, 255, 255);
+        protagonist.draw();
     }
     
-    for(auto &joint : joints) {
-        ofSetHexColor(0x444342);
-        joint->draw();
+    if(changeTheme == true)
+    {
+        ofFill();
+        ofSetColor(255, 255, 255);
+        protagonist.draw();
+        
+//        for(auto &circle : circlesForJoints) {
+//            ofFill();
+//            ofSetHexColor(0x01b1f2);
+//            circle->draw();
+//        }
+//
+//        for(auto &joint : joints) {
+//            ofSetHexColor(0x444342);
+//            joint->draw();
+//        }
+
+        for(auto &circle : circlesForJoints) {
+            ofFill();
+            ColorData * data = (ColorData*)circle->getData();
+            ofSetColor(data->color);
+            circle->draw();
+        }
+        
+        
+        for(auto &joint : joints) {
+            ofSetColor(0x444342);
+            joint->draw();
+        }
+        
     }
-
     
-    
-
-    
+   // protagonist.draw();
   
     
     ///////////////////end
@@ -295,23 +346,31 @@ void ofApp::keyPressed(int key){
     
     if(key == 'e') box2d.enableEvents();
     if(key == 'd') box2d.disableEvents();
-    if(key == 'n') {
-        
-        // add a new circle
-        auto circle = make_shared<ofxBox2dCircle>();
-        circle->setPhysics(3.0, 0.53, 0.1);
-        circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
-        
-        circlesForJoints.push_back(circle);
-    
-        // get this cirlce and the prev cirlce
-        int a = (int)circlesForJoints.size()-2;
-        int b = (int)circlesForJoints.size()-1;
-
-        // now connect the new circle with a joint
-        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
-        joint.get()->setLength(25);
-        joints.push_back(joint);
+//    if(key == 'n') {
+//
+//        // add a new circle
+//        auto circle = make_shared<ofxBox2dCircle>();
+//        circle->setPhysics(3.0, 0.53, 0.1);
+//        circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
+//
+//        circle->setData(new ColorData());
+//        auto * sd = (ColorData*)circle->getData();
+//        sd->color = changeTo;
+//        sd->bHit    = false;
+//
+//        circlesForJoints.push_back(circle);
+//
+//        // get this cirlce and the prev cirlce
+//        int a = (int)circlesForJoints.size()-2;
+//        int b = (int)circlesForJoints.size()-1;
+//
+//        // now connect the new circle with a joint
+//        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
+//        joint.get()->setLength(25);
+//        joints.push_back(joint);
+//    }
+    if(key == 'w'){
+        changeTheme = !changeTheme;
     }
     
 }
