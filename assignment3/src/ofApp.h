@@ -6,10 +6,18 @@
 
 #define N_SOUNDS 5
 
-class SoundData {
+//class SoundData {
+//public:
+//    int     soundID;
+//    bool bHit;
+//};
+
+
+class ColorData {
 public:
-    int     soundID;
+    ofColor  color;
     bool bHit;
+    int colorID;
 };
 
 
@@ -57,13 +65,23 @@ class ofApp : public ofBaseApp{
     
     
     // when the ball hits we play this sound
-    ofSoundPlayer  sound[N_SOUNDS];
+//    ofSoundPlayer  sound[N_SOUNDS];
+    
+    ofColor colors[5];
     
     // this is the function for contacts
     void contactStart(ofxBox2dContactArgs &e);
     void contactEnd(ofxBox2dContactArgs &e);
     bool hitOnce;
+    
+    float radius;
+    
+    ofColor changeTo;
 
+    
+    
+    
+    int index = 0;
     
 		
 };
