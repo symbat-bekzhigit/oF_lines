@@ -31,11 +31,11 @@ void ofApp::setup(){
     breakupIntoTriangles = true;
     bFill = false;
     
-    protagonist.setPhysics(0.3, 1, 0.1); //density, bounce, friction
+    protagonist.setPhysics(0.3, 0.1, 0.1); //density, bounce, friction
     protagonist.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
-
-    circle.setPhysics(0.3, 1, 0.1); //density, bounce, friction
-    circle.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
+//
+//    circle.setPhysics(0.3, 1, 0.1); //density, bounce, friction
+//    circle.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
 
     //phase 1 setup
     // register the listener so that we get the events
@@ -68,7 +68,7 @@ void ofApp::setup(){
     sd->color.r = 255;
     sd->color.g = 255;
     sd->color.b = 255;
-    sd->bHit    = false;
+    sd->bHit  = false;
     hitOnce = false;
     
     background1.load("/Users/symbat/Desktop/projects/assignment3/bin/data/citycolorful.jpeg");
@@ -188,7 +188,7 @@ void ofApp::contactEnd(ofxBox2dContactArgs &e) {
 void ofApp::update(){
 
     // remove shapes offscreen
-    ofRemove(polyShapes, [](shared_ptr<ofxBox2dPolygon> shape) -> bool {
+    ofRemove(rectangles, [](shared_ptr<ofxBox2dRect> shape) -> bool {
         return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
     });
     ofRemove(circles, [](shared_ptr<ofxBox2dCircle> shape) -> bool {
@@ -199,11 +199,13 @@ void ofApp::update(){
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
     
+    
     //added later monday 16:54
-
+    
+    //randomly appearing circles
     if((int)ofRandom(0, 50) == 0) {
         auto c = std::make_shared<ofxBox2dCircle>();
-        c->setPhysics(1, 0.5, 0.9);
+        c->setPhysics(1, 0.1, 0.9);
         radius = ofRandom(10, 30);
         c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
 
@@ -220,11 +222,27 @@ void ofApp::update(){
         circles.push_back(c);
     }
     
-    index = (index+1) % 5;
+    //randomly appearing rectangles
+    if((int)ofRandom(0, 50) == 0) {
+        
+        float w = ofRandom(14, 20);
+        float h = ofRandom(14, 20);
+        auto rect = std::make_shared<ofxBox2dRect>();
+        rect->setPhysics(3.0, 0.1, 0.9);
+        rect->setup(box2d.getWorld(), ofGetWidth()-radius, ofRandom(ofGetHeight()), w, h);
+        
+        rect->setData(new ColorData());
+        auto * sd = (ColorData*)rect->getData();
+        sd->colorID = ofRandom(0, 5);
+        sd->bHit    = false;
+        
+        rectangles.push_back(rect);
+        
+    }
+    
     
     ColorData * data = (ColorData*)protagonist.getData();
-    
-    if((changeTheme == true) && data->bHit)
+    if((changeTheme == true) && (data && data->bHit))
     {
         // add a new circle
         auto circle = make_shared<ofxBox2dCircle>();
@@ -247,6 +265,8 @@ void ofApp::update(){
         auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
         joint.get()->setLength(25);
         joints.push_back(joint);
+        
+        data->bHit = false; //sometimes when the contact is too long, it will keep adding new joints, so i chnage bhit to false
     }
 }
 
@@ -265,12 +285,20 @@ void ofApp::draw(){
 //        else ofSetHexColor(0x4ccae9);
         
         ColorData * data = (ColorData*)circles[i].get()->getData();
-//
-//        if(data && data->bHit) ofSetColor(255, 255, 255);
-//        else ofSetColor(colors[data->colorID]);
-        
         ofSetColor(colors[data->colorID]);
         circles[i].get()->draw();
+        
+    }
+    
+    for(size_t i=0; i<rectangles.size(); i++) {
+        ofFill();
+//        SoundData * data = (SoundData*)circles[i].get()->getData();
+//        if(data && data->bHit) ofSetHexColor(0xff0000);
+//        else ofSetHexColor(0x4ccae9);
+        
+        ColorData * data = (ColorData*)rectangles[i].get()->getData();
+        ofSetColor(colors[data->colorID]);
+        rectangles[i].get()->draw();
         
     }
     
@@ -326,6 +354,8 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    
+    //draw more circles
     if(key == '1') {
         auto circle = std::make_shared<ofxBox2dCircle>();
         circle->setPhysics(0.3, 0.5, 0.1); //density, bounce, friction
@@ -342,6 +372,23 @@ void ofApp::keyPressed(int key){
         sd->bHit    = false;
         
         circles.push_back(circle);
+    }
+    
+    
+    //draw more rectangles
+    if(key == '2') {
+        float w = ofRandom(14, 20);
+        float h = ofRandom(14, 20);
+        auto rect = std::make_shared<ofxBox2dRect>();
+        rect->setPhysics(3.0, 0.53, 0.9);
+        rect->setup(box2d.getWorld(), mouseX, mouseY, w, h);
+        
+        rect->setData(new ColorData());
+        auto * sd = (ColorData*)rect->getData();
+        sd->colorID = ofRandom(0, 5);
+        sd->bHit    = false;
+        
+        rectangles.push_back(rect);
     }
     
     if(key == 'e') box2d.enableEvents();
