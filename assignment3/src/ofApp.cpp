@@ -9,11 +9,11 @@ void ofApp::setup(){
     bottomRight.x = ofGetWidth();
     bottomRight.y = ofGetHeight();
     
-    
     topLeft.x = 0;
     topLeft.y = 0;
     topRight.x = ofGetWidth();
     topRight.y = 0;
+    
     
     ofSetBackgroundColor(255, 255, 255);
     ofSetLogLevel(OF_LOG_NOTICE);
@@ -21,14 +21,13 @@ void ofApp::setup(){
 
     // Box2d
     box2d.init();
-
     box2d.createGround();
     box2d.registerGrabbing();
     box2d.createGround(bottomLeft, bottomRight);
     box2d.createGround(topLeft, topRight);
-    
     box2d.setGravity(gravityX, gravityY);
 
+    
     breakupIntoTriangles = true;
     bFill = false;
     
@@ -38,8 +37,7 @@ void ofApp::setup(){
     circle.setPhysics(0.3, 1, 0.1); //density, bounce, friction
     circle.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
 
-    
-    ///////////////////////////////// start
+    //phase 1 setup
     // register the listener so that we get the events
     ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
     ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
@@ -50,7 +48,6 @@ void ofApp::setup(){
 //        sound[i].setMultiPlay(true);
 //        sound[i].setLoop(false);
 //    }
-    
     
     for (int i=0; i<5; i++) {
         colors[i].r = ofRandom(255);
@@ -66,7 +63,6 @@ void ofApp::setup(){
 //
 //    hitOnce = false;
     
-    
     protagonist.setData(new ColorData());
     auto * sd = (ColorData*)protagonist.getData();
     sd->color.r = 255;
@@ -76,6 +72,28 @@ void ofApp::setup(){
     hitOnce = false;
     
     background1.load("/Users/symbat/Desktop/projects/assignment3/bin/data/citycolorful.jpeg");
+    
+    
+    //phase 2 setup
+
+    // first we add just a few circles
+    for (int i=0; i<2; i++) {
+        auto circle = make_shared<ofxBox2dCircle>();
+        circle->setPhysics(3.0, 0.53, 0.1);
+//        circle->setup(box2d.getWorld(), ofGetWidth()/2, 100+(i*20), 8);
+//        circle->setup(box2d.getWorld(), protagonist.getPosition().x-8, 100+(i*20), 8);
+        circle->setup(box2d.getWorld(), protagonist.getPosition().x-50, 100+(i*20), 8);
+        circlesForJoints.push_back(circle);
+    }
+    
+    // now connect each circle with a joint
+    for (int i=0; i<circlesForJoints.size(); i++) {
+//        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), i == 0 ? anchor.body : circlesForJoints[i-1]->body, circlesForJoints[i]->body);
+        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), i == 0 ? protagonist.body : circlesForJoints[i-1]->body, circlesForJoints[i]->body);
+        
+        joint->setLength(25);
+        joints.push_back(joint);
+    }
     
 }
 
@@ -101,7 +119,6 @@ void ofApp::setup(){
 //        }
 //    }
 //}
-
 
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
@@ -206,6 +223,21 @@ void ofApp::draw(){
     ////////////////////////start
     ofSetColor(255, 255, 255);
     background1.draw(0,0,ofGetWidth(),ofGetHeight());
+    
+    
+    for(auto &circle : circlesForJoints) {
+        ofFill();
+        ofSetHexColor(0x01b1f2);
+        circle->draw();
+    }
+    
+    for(auto &joint : joints) {
+        ofSetHexColor(0x444342);
+        joint->draw();
+    }
+
+    
+    
 
 //    int index = 0;
     for(size_t i=0; i<circles.size(); i++) {
@@ -235,6 +267,8 @@ void ofApp::draw(){
     protagonist.draw();
 
     
+  
+    
     ///////////////////end
 }
 
@@ -260,6 +294,25 @@ void ofApp::keyPressed(int key){
     
     if(key == 'e') box2d.enableEvents();
     if(key == 'd') box2d.disableEvents();
+    if(key == 'n') {
+        
+        // add a new circle
+        auto circle = make_shared<ofxBox2dCircle>();
+        circle->setPhysics(3.0, 0.53, 0.1);
+        circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
+        
+        circlesForJoints.push_back(circle);
+    
+        // get this cirlce and the prev cirlce
+        int a = (int)circlesForJoints.size()-2;
+        int b = (int)circlesForJoints.size()-1;
+
+        // now connect the new circle with a joint
+        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
+        joint.get()->setLength(25);
+        joints.push_back(joint);
+    }
+    
 }
 
 //--------------------------------------------------------------
