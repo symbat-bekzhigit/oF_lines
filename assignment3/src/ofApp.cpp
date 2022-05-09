@@ -82,7 +82,7 @@ void ofApp::setup(){
         circle->setPhysics(3.0, 0.53, 0.1);
 //        circle->setup(box2d.getWorld(), ofGetWidth()/2, 100+(i*20), 8);
 //        circle->setup(box2d.getWorld(), protagonist.getPosition().x-8, 100+(i*20), 8);
-        circle->setup(box2d.getWorld(), protagonist.getPosition().x-50, 100+(i*20), 8);
+        circle->setup(box2d.getWorld(), protagonist.getPosition().x-100, 100+(i*20), 8);
         circlesForJoints.push_back(circle);
     }
     
@@ -91,7 +91,8 @@ void ofApp::setup(){
 //        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), i == 0 ? anchor.body : circlesForJoints[i-1]->body, circlesForJoints[i]->body);
         auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), i == 0 ? protagonist.body : circlesForJoints[i-1]->body, circlesForJoints[i]->body);
         
-        joint->setLength(25);
+        joint->setLength(80);
+    
         joints.push_back(joint);
     }
     
@@ -223,21 +224,6 @@ void ofApp::draw(){
     ////////////////////////start
     ofSetColor(255, 255, 255);
     background1.draw(0,0,ofGetWidth(),ofGetHeight());
-    
-    
-    for(auto &circle : circlesForJoints) {
-        ofFill();
-        ofSetHexColor(0x01b1f2);
-        circle->draw();
-    }
-    
-    for(auto &joint : joints) {
-        ofSetHexColor(0x444342);
-        joint->draw();
-    }
-
-    
-    
 
 //    int index = 0;
     for(size_t i=0; i<circles.size(); i++) {
@@ -265,6 +251,21 @@ void ofApp::draw(){
     else ofSetColor(255, 255, 255);
     
     protagonist.draw();
+    
+    
+    for(auto &circle : circlesForJoints) {
+        ofFill();
+        ofSetHexColor(0x01b1f2);
+        circle->draw();
+    }
+    
+    for(auto &joint : joints) {
+        ofSetHexColor(0x444342);
+        joint->draw();
+    }
+
+    
+    
 
     
   
