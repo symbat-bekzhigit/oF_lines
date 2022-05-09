@@ -27,9 +27,6 @@ void ofApp::setup(){
     box2d.createGround(bottomLeft, bottomRight);
     box2d.createGround(topLeft, topRight);
     
-    
-   // box2d.setFPS(60.0);
-    //box2d.setGravity(-1, 0);
     box2d.setGravity(gravityX, gravityY);
 
     breakupIntoTriangles = true;
@@ -48,20 +45,63 @@ void ofApp::setup(){
     ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
     
      //load the 8 sfx soundfile
-    for (int i=0; i<N_SOUNDS; i++) {
-        sound[i].load("sfx/"+ofToString(i)+".mp3");
-        sound[i].setMultiPlay(true);
-        sound[i].setLoop(false);
+//    for (int i=0; i<N_SOUNDS; i++) {
+//        sound[i].load("sfx/"+ofToString(i)+".mp3");
+//        sound[i].setMultiPlay(true);
+//        sound[i].setLoop(false);
+//    }
+    
+    
+    for (int i=0; i<5; i++) {
+        colors[i].r = ofRandom(255);
+        colors[i].g = ofRandom(255);
+        colors[i].b = ofRandom(255);
+        
     }
     
-    protagonist.setData(new SoundData());
-    auto * sd = (SoundData*)protagonist.getData();
-    sd->soundID = ofRandom(0, N_SOUNDS);
-    sd->bHit    = false;
+//    protagonist.setData(new SoundData());
+//    auto * sd = (SoundData*)protagonist.getData();
+//    sd->soundID = ofRandom(0, N_SOUNDS);
+//    sd->bHit    = false;
+//
+//    hitOnce = false;
     
+    
+    protagonist.setData(new ColorData());
+    auto * sd = (ColorData*)protagonist.getData();
+    sd->color.r = 255;
+    sd->color.g = 255;
+    sd->color.b = 255;
+    
+    sd->bHit    = false;
+
     hitOnce = false;
     
 }
+
+//void ofApp::contactStart(ofxBox2dContactArgs &e) {
+//    if(e.a != NULL && e.b != NULL) {
+//
+//        // if we collide with the ground we do not
+//        // want to play a sound. this is how you do that
+//        if(e.a->GetType() == b2Shape::e_circle && e.b->GetType() == b2Shape::e_circle) {
+//
+//            SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
+//            SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+//
+//            if(aData) {
+//                aData->bHit = true;
+//                sound[aData->soundID].play();
+//            }
+//
+//            if(bData) {
+//                bData->bHit = true;
+//                sound[bData->soundID].play();
+//            }
+//        }
+//    }
+//}
+
 
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
@@ -70,28 +110,46 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
         // want to play a sound. this is how you do that
         if(e.a->GetType() == b2Shape::e_circle && e.b->GetType() == b2Shape::e_circle) {
             
-            SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
-            SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+            ColorData * aData = (ColorData*)e.a->GetBody()->GetUserData();
+            ColorData * bData = (ColorData*)e.b->GetBody()->GetUserData();
             
             if(aData) {
                 aData->bHit = true;
-                sound[aData->soundID].play();
+                changeTo = colors[aData->colorID];
             }
             
             if(bData) {
                 bData->bHit = true;
-                sound[bData->soundID].play();
+                changeTo = colors[bData->colorID];
             }
         }
     }
 }
 
+
 //--------------------------------------------------------------
+//void ofApp::contactEnd(ofxBox2dContactArgs &e) {
+//    if(e.a != NULL && e.b != NULL) {
+//
+//        SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
+//        SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+//
+//        if(aData) {
+//            aData->bHit = false;
+//        }
+//
+//        if(bData) {
+//            bData->bHit = false;
+//        }
+//    }
+//}
+
+
 void ofApp::contactEnd(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
         
-        SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
-        SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
+        ColorData * aData = (ColorData*)e.a->GetBody()->GetUserData();
+        ColorData * bData = (ColorData*)e.b->GetBody()->GetUserData();
 
         if(aData) {
             aData->bHit = false;
@@ -102,7 +160,6 @@ void ofApp::contactEnd(ofxBox2dContactArgs &e) {
         }
     }
 }
-
 
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -119,49 +176,73 @@ void ofApp::update(){
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
     
+    //added later monday 16:54
+
+    if((int)ofRandom(0, 50) == 0) {
+        auto c = std::make_shared<ofxBox2dCircle>();
+        c->setPhysics(1, 0.5, 0.9);
+        radius = ofRandom(10, 30);
+        c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
+
+//        c->setData(new SoundData());
+//
+//        auto * sd = (SoundData*)c->getData();
+//        sd->soundID = ofRandom(0, N_SOUNDS);
+//        sd->bHit    = false;
+        
+        c->setData(new ColorData());
+    
+        auto * sd = (ColorData*)c->getData();
+        sd->colorID = ofRandom(0, 5);
+        sd->bHit    = false;
+        
+        circles.push_back(c);
+    }
+    
+    
+    index = (index+1) % 5;
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
     
     ////////////// start
-//    protagonist.setData(new SoundData());
-//    auto * sd = (SoundData*)protagonist.getData();
-//    sd->soundID = ofRandom(0, N_SOUNDS);
-//    sd->bHit    = false;
-    
+
     ofFill();
     ofSetColor(255, 255, 255);
-    SoundData * data = (SoundData*)protagonist.getData();
-    if(data && data->bHit)  ofSetHexColor(0xc0dd3b);
-    else ofSetHexColor(0xff0000);
+    
+//    SoundData * data = (SoundData*)protagonist.getData();
+//    if(data && data->bHit)  ofSetHexColor(0xc0dd3b);
+    
+    ColorData * data = (ColorData*)protagonist.getData();
+    if(data && data->bHit)  ofSetColor(changeTo);
+    else ofSetColor(255, 255, 255);
     
     protagonist.draw();
 
     ///////////////////end
     
-    
-   // protagonist.draw()
-    
-//    for(auto &circle : circles) {
-//        ofFill();
-//        ofSetHexColor(0xc0dd3b);
-//        circle->draw();
-//    }
-//
-    
     ////////////////////////start
-    
-    for(auto &circle : circles) {
+//    int index = 0;
+    for(size_t i=0; i<circles.size(); i++) {
         ofFill();
-//        SoundData * data = (SoundData*)circle.get()->getData();
+//        SoundData * data = (SoundData*)circles[i].get()->getData();
 //
 //        if(data && data->bHit) ofSetHexColor(0xff0000);
 //        else ofSetHexColor(0x4ccae9);
-        ofSetHexColor(0xc0dd3b);
-        circle->draw();
+        
+        ColorData * data = (ColorData*)circles[i].get()->getData();
+//
+//        if(data && data->bHit) ofSetColor(255, 255, 255);
+//        else ofSetColor(colors[data->colorID]);
+        
+        ofSetColor(colors[data->colorID]);
+//        ofSetHexColor(0xc0dd3b);
+        //ofSetColor(colors[index]);
+        circles[i].get()->draw();
+        
     }
+    
     ///////////////////end
 }
 
@@ -171,17 +252,22 @@ void ofApp::keyPressed(int key){
         auto circle = std::make_shared<ofxBox2dCircle>();
         circle->setPhysics(0.3, 0.5, 0.1); //density, bounce, friction
         circle->setup(box2d.getWorld(), mouseX, mouseY, ofRandom(10, 20));
+
+//        circle->setData(new SoundData());
+//        auto * sd = (SoundData*)circle->getData();
+//        sd->soundID = ofRandom(0, N_SOUNDS);
+//        sd->bHit    = false;
         
-        circle->setData(new SoundData());
-        auto * sd = (SoundData*)circle->getData();
-        sd->soundID = ofRandom(0, N_SOUNDS);
+        circle->setData(new ColorData());
+        auto * sd = (ColorData*)circle->getData();
+        sd->colorID = ofRandom(0, 5);
         sd->bHit    = false;
         
         circles.push_back(circle);
     }
     
-    if(key == '2') box2d.enableEvents();
-    if(key == '3') box2d.disableEvents();
+    if(key == 'e') box2d.enableEvents();
+    if(key == 'd') box2d.disableEvents();
 }
 
 //--------------------------------------------------------------
