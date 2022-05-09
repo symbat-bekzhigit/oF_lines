@@ -88,6 +88,7 @@ class ofApp : public ofBaseApp{
     
 
     bool changeTheme;
+    bool finalStage;
     
 		
 };
