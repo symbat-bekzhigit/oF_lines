@@ -15,7 +15,7 @@ void ofApp::setup(){
     topRight.x = ofGetWidth();
     topRight.y = 0;
     
-    ofBackgroundHex(0xfdefc2);
+    ofSetBackgroundColor(255, 255, 255);
     ofSetLogLevel(OF_LOG_NOTICE);
     ofSetVerticalSync(true);
 
@@ -72,10 +72,10 @@ void ofApp::setup(){
     sd->color.r = 255;
     sd->color.g = 255;
     sd->color.b = 255;
-    
     sd->bHit    = false;
-
     hitOnce = false;
+    
+    background1.load("/Users/symbat/Desktop/projects/assignment3/bin/data/citycolorful.jpeg");
     
 }
 
@@ -106,8 +106,6 @@ void ofApp::setup(){
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
         
-        // if we collide with the ground we do not
-        // want to play a sound. this is how you do that
         if(e.a->GetType() == b2Shape::e_circle && e.b->GetType() == b2Shape::e_circle) {
             
             ColorData * aData = (ColorData*)e.a->GetBody()->GetUserData();
@@ -185,7 +183,6 @@ void ofApp::update(){
         c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
 
 //        c->setData(new SoundData());
-//
 //        auto * sd = (SoundData*)c->getData();
 //        sd->soundID = ofRandom(0, N_SOUNDS);
 //        sd->bHit    = false;
@@ -206,23 +203,10 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    ////////////// start
-
-    ofFill();
-    ofSetColor(255, 255, 255);
-    
-//    SoundData * data = (SoundData*)protagonist.getData();
-//    if(data && data->bHit)  ofSetHexColor(0xc0dd3b);
-    
-    ColorData * data = (ColorData*)protagonist.getData();
-    if(data && data->bHit)  ofSetColor(changeTo);
-    else ofSetColor(255, 255, 255);
-    
-    protagonist.draw();
-
-    ///////////////////end
-    
     ////////////////////////start
+    ofSetColor(255, 255, 255);
+    background1.draw(0,0,ofGetWidth(),ofGetHeight());
+
 //    int index = 0;
     for(size_t i=0; i<circles.size(); i++) {
         ofFill();
@@ -240,6 +224,16 @@ void ofApp::draw(){
         circles[i].get()->draw();
         
     }
+    
+//    SoundData * data = (SoundData*)protagonist.getData();
+//    if(data && data->bHit)  ofSetHexColor(0xc0dd3b);
+    ofFill();
+    ColorData * data = (ColorData*)protagonist.getData();
+    if(data && data->bHit)  ofSetColor(changeTo);
+    else ofSetColor(255, 255, 255);
+    
+    protagonist.draw();
+
     
     ///////////////////end
 }
