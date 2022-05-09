@@ -46,7 +46,7 @@ class ofApp : public ofBaseApp{
     ofPolyline                            shape;
     ofxBox2d                              box2d;
     vector <shared_ptr<ofxBox2dCircle>>   circles;
-    vector <shared_ptr<ofxBox2dPolygon>>  polyShapes;
+    vector <shared_ptr<ofxBox2dRect>>  rectangles;
     
     ofxBox2dCircle circle;
     
@@ -84,8 +84,9 @@ class ofApp : public ofBaseApp{
     ofxBox2dCircle anchor;              //    fixed anchor       //
     vector <shared_ptr<ofxBox2dJoint>> joints;
     vector <shared_ptr<ofxBox2dCircle>> circlesForJoints;
+    vector <shared_ptr<ofxBox2dRect>> rectanglesForJoints;
     
-    shared_ptr<ofxBox2dCircle> pointerToProtagonist;
+
     bool changeTheme;
     
 		
