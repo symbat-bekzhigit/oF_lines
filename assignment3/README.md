@@ -63,7 +63,7 @@ What's more, in phase 2, it'd be good to attach figures to the tail of the prota
 ***
 **Addressing different interpretations of this story**
  
- The idea that I described above is my interpretation of this short story, but other people can have entirely different interpretations too. After I came up with a conceptual idea for my work, I searched the internet for the artices from psychology, or any other related field, that describe a similar phenomenon in search for an inspiration, and I found that this idea is actually a pretty popular concept used in business management and leadership strategies, known as ["3 Phases of a Crisis: React, Adapt, Evolve"](https://www.chosic.com/free-music/adventure/).
+ The idea that I described above is my interpretation of this short story, but other people can have entirely different interpretations too. After I came up with a conceptual idea for my work, I searched the internet for the articles from psychology or any other related field that describe a similar phenomenon, and I found that this idea is actually a pretty popular concept used in business management and leadership strategies, known as ["3 Phases of a Crisis: React, Adapt, Evolve"](https://www.chosic.com/free-music/adventure/).
  
  
 Here's the link to the video recording of my animation:
