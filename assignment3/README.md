@@ -40,7 +40,7 @@ The culmination of this story is when the c=protagonist and the objects that are
 ***
 **How this work can be improved?**
 
-One possible idea would be to attach some role to the protagonists and passerby objects by adding images of some objects/people/characters etc.
+One possible idea would be to attach some role to the protagonists and passerby objects by adding images of some objects/people/cartoon characters etc.
 Another idea that I had was to implement a collision sound but I didn't do that because I thought it will disrupt the flow of background music upon which the transition to different phases occurs.
 What's more, in phase 2, it'd be good to attach figures to the tail of the protagonist depending not only on the color of the object it collided with but also a shape (i.e if it collides with a red triangle, a smaller red triangle will be added to its tail). I tried to implement that too but I couldn't do that because my collision function operates on a basis that it captures the protagonist's collisions with only alike objects (i.e objects of the same shape)
 
