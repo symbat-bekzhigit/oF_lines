@@ -37,21 +37,8 @@ void ofApp::setup(){
     // register the listener so that we get the events
     ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
     ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
-    
-     //load the 8 sfx soundfile
-//    for (int i=0; i<N_SOUNDS; i++) {
-//        sound[i].load("sfx/"+ofToString(i)+".mp3");
-//        sound[i].setMultiPlay(true);
-//        sound[i].setLoop(false);
-//    }
-    
-//    for (int i=0; i<5; i++) {
-//        colors[i].r = ofRandom(255);
-//        colors[i].g = ofRandom(255);
-//        colors[i].b = ofRandom(255);
-//
-//    }
 
+    
     colors[0].setHex(0xED7F8C);
     colors[1].setHex(0xFEFF35);
     colors[2].setHex(0x61C7C9);
@@ -74,7 +61,6 @@ void ofApp::setup(){
         auto circle = make_shared<ofxBox2dCircle>();
         circle->setPhysics(3.0, 0.1, 0.1); //desnity,bounce,fricition
 
-//        circle->setup(box2d.getWorld(), ofGetWidth()/2, 100+(i*20), 8);
         circle->setup(box2d.getWorld(), protagonist.getPosition().x-100, 100+(i*20), 8);
         
         circle->setData(new ColorData());
@@ -101,32 +87,18 @@ void ofApp::setup(){
     mySound.load("Enchanted.mp3");
     mySound.play();
     
-    explosion.load("Enchanted.mp3")
+    explosion.load("explosion.mp3");
     
+    introText.load("IndieFlower-Regular.ttf", 30);
+    isIntroScreen = true;
+    
+    endText.load("IndieFlower-Regular.ttf", 30);
+    isEndScreen = false;
+    counter = 0;
+    
+    box2d.enableEvents();
 }
 
-//void ofApp::contactStart(ofxBox2dContactArgs &e) {
-//    if(e.a != NULL && e.b != NULL) {
-//
-//        // if we collide with the ground we do not
-//        // want to play a sound. this is how you do that
-//        if(e.a->GetType() == b2Shape::e_circle && e.b->GetType() == b2Shape::e_circle) {
-//
-//            SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
-//            SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
-//
-//            if(aData) {
-//                aData->bHit = true;
-//                sound[aData->soundID].play();
-//            }
-//
-//            if(bData) {
-//                bData->bHit = true;
-//                sound[bData->soundID].play();
-//            }
-//        }
-//    }
-//}
 
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
@@ -151,22 +123,6 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
 
 
 //--------------------------------------------------------------
-//void ofApp::contactEnd(ofxBox2dContactArgs &e) {
-//    if(e.a != NULL && e.b != NULL) {
-//
-//        SoundData * aData = (SoundData*)e.a->GetBody()->GetUserData();
-//        SoundData * bData = (SoundData*)e.b->GetBody()->GetUserData();
-//
-//        if(aData) {
-//            aData->bHit = false;
-//        }
-//
-//        if(bData) {
-//            bData->bHit = false;
-//        }
-//    }
-//}
-
 
 void ofApp::contactEnd(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
@@ -200,7 +156,6 @@ void ofApp::update(){
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
 
-    
     
     //phase 1
     if(changeTheme == false and finalStage == false)
@@ -384,6 +339,8 @@ void ofApp::update(){
         //if the user clicks "s" which stants for spread, the figures will be repuleld from the centre
         else
         {
+//            explosion.play();
+            
             ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
             float minDis = ofGetMousePressed() ? 300 : 200;
             
@@ -407,8 +364,25 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+     
+    if(isIntroScreen == true)
+    {
+        ofSetBackgroundColor(255, 255, 255);
+        ofSetColor(0, 0, 0);
+        introText.drawString("This is a story of a circle.", ofGetWidth()/4, ofGetHeight()/2);
+        
+    }
     
-    //start
+    else if(isEndScreen == true)
+    {
+        ofSetBackgroundColor(255, 255, 255);
+        ofSetColor(0, 0, 0);
+        endText.drawString("The End.", ofGetWidth()/2-60, ofGetHeight()/2);
+        
+    }
+    
+    else {
+        
     ofSetColor(255, 255, 255);
     background1.draw(0,0,ofGetWidth(),ofGetHeight());
 
@@ -429,7 +403,6 @@ void ofApp::draw(){
         
     }
 
-    
     
     if(changeTheme == false)
     {
@@ -460,6 +433,7 @@ void ofApp::draw(){
         }
         
     }
+    }
 
 }
 
@@ -479,8 +453,6 @@ void ofApp::keyPressed(int key){
         
         circles.push_back(circle);
     }
-    
-    
     //draw more rectangles
     if(key == '2') {
         float w = ofRandom(14, 20);
@@ -497,23 +469,34 @@ void ofApp::keyPressed(int key){
         rectangles.push_back(rect);
     }
     
-    if(key == 'e') box2d.enableEvents();
-    if(key == 'd') box2d.disableEvents();
-    if(key == 'w'){
+    if(key == 'c'){ //change theme
         changeTheme = !changeTheme;
     }
     
-    if(key == 'f'){
+    if(key == 'f'){ //final stage
         finalStage = true;
         gatherToCenter = true;
         
     }
-    if(key == 's')
+    if(key == 's') //spread
     {
         finalStage = true;
         gatherToCenter = false;
+        explosion.play();
     }
-    
+    if(key == 'x') //manipulating entr/exit screens
+    {
+        if(counter == 0) //exit intro screen
+        {
+            isIntroScreen = false;
+        }
+        else if(counter == 1) //enter exit screen
+        {
+            isEndScreen = true;
+           
+        }
+        counter++;
+    }
 }
 
 //--------------------------------------------------------------
