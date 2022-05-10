@@ -93,5 +93,15 @@ class ofApp : public ofBaseApp{
     
     ofSoundPlayer mySound;
     ofSoundPlayer explosion;
+    
+    ofTrueTypeFont introText;
+    bool isIntroScreen;
+    
+    
+    ofTrueTypeFont endText;
+    bool isEndScreen;
+    
+    int counter;
+    
 		
 };
