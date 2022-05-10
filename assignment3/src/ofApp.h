@@ -48,15 +48,10 @@ class ofApp : public ofBaseApp{
     float gravityY= 0.0;
     
     void applyForce(ofVec2f force,ofVec2f point);
-    
-    ofPoint bottomLeft;
-    ofPoint bottomRight;
-    ofPoint topLeft;
-    ofPoint topRight;
-    
+    ofImage background1;
     ofColor colors[5];
     
-    // this is the function for contacts
+    // these are the functions for checking the collision
     void contactStart(ofxBox2dContactArgs &e);
     void contactEnd(ofxBox2dContactArgs &e);
     bool hitOnce;
@@ -64,23 +59,26 @@ class ofApp : public ofBaseApp{
     float radius;
     ofColor changeTo;
     int index = 0;
-    ofImage background1;
     
+  
+    //these are the vectors for randonly generated circles, rectangles, and joints
     vector <shared_ptr<ofxBox2dJoint>> joints;
     vector <shared_ptr<ofxBox2dCircle>> circlesForJoints;
     vector <shared_ptr<ofxBox2dRect>> rectanglesForJoints;
     
-
+    //
     bool changeTheme;
     bool finalStage;
     bool gatherToCenter;
     
+    //sound
     ofSoundPlayer mySound;
     ofSoundPlayer explosion;
     
+    //font and intro/exit sreens
     ofTrueTypeFont introText;
+    ofTrueTypeFont introTextSmall;
     bool isIntroScreen;
-    
     ofTrueTypeFont endText;
     bool isEndScreen;
     
