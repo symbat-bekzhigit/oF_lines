@@ -32,14 +32,14 @@ As for the color of the randomly appearing circles and rectangles, i.e passerby 
 
 In this phase, circles and rectangles with random colors will be generated from the right end of the screen and the protagonist will react to the collision with passerby circles by changing its color to that of the circle it collided with. For checking the collision, I implemented functions that are called contactStart() and contactEnd(), and for changing the color of the protagonist to the color of the circle it collided with, I create a separate class called ColorData with different attributes that will store the color information of each created object. You can see a more detailed description of those methods in the code itself.
 
-![](bin/data/phase1.png)
+![Screenshot from phase 1](bin/data/phase1.png)
 
 
 *Phase 2 - Adapt:*
 
 In this phase, the protagonist will react to the collision by adding more circles in its tail and the color of the circle it adds will match that of the circle it collided with. This process of adding some feature to its body depending on the different kinds of experiences the protagonist goes through is what I mean by calling this phase "Adapt". For adding circles, or creating a "tail", I create a separate vector that will store the tail's circles and a vector that will store joints that will be joining the tail's circles to each other.
 
-
+![Screenshot from phase 2](bin/data/phase2.png)
 
 
 *Phase 3 - Evolve:*
@@ -49,7 +49,7 @@ In the code, I implement this through the use of the addAttractionPoint() functi
 
 The culmination of this story is when the protagonist and the objects that are all attracted to the center will spread out to different parts of the screen away from the center, upon the click of a certain key. I didn't quite put an important context behind this action, I just thought that culminating the objects that are gathered around the center in this way will be relevant and will also look cool. I perform this method by using the opposite of the attraction force - the repulsion force - following the similar logic as I implemented with addAttractionPoint().
 
-![](bin/data/phase3.png)
+![Screenshot from phase 3](bin/data/phase3.png)
 
 
 
