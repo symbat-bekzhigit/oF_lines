@@ -64,9 +64,6 @@ class ofApp : public ofBaseApp{
     ofPoint topRight;
     
     
-    // when the ball hits we play this sound
-//    ofSoundPlayer  sound[N_SOUNDS];
-    
     //phase 1
     ofColor colors[5];
     // this is the function for contacts
@@ -96,7 +93,6 @@ class ofApp : public ofBaseApp{
     
     ofTrueTypeFont introText;
     bool isIntroScreen;
-    
     
     ofTrueTypeFont endText;
     bool isEndScreen;
