@@ -1,5 +1,4 @@
 #include "ofApp.h"
-#include "circle.hpp"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -21,7 +20,6 @@ void ofApp::setup(){
 
     // Box2d
     box2d.init();
-   // box2d.createGround();
     box2d.registerGrabbing();
     box2d.setGravity(gravityX, gravityY);
 
