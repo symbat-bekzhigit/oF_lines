@@ -190,16 +190,15 @@ void ofApp::update(){
         return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
     });
     
-   
-    
- 
     box2d.update();
     
     ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
 
     
-    if(changeTheme == false) //phase 1
+    
+    
+    if(changeTheme == false and finalStage == false) //phase 1
     {
         //randomly appearing circles
         if((int)ofRandom(0, 50) == 0) {
@@ -332,42 +331,46 @@ void ofApp::update(){
         
         if(gatherToCenter == true)
         {
+            protagonist.addAttractionPoint(ofGetWidth()/2, ofGetHeight()/2,5.0);
+            ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
+            float minDis = ofGetMousePressed() ? 300 : 200;
             
+            
+            for(auto &circle : circles) {
+                float dis = position.distance(circle->getPosition());
+    
+                if(dis < minDis) {
+                    circle->addRepulsionForce(position, 0.5);
+                }
+                else {
+                    circle->addAttractionPoint(position, 1.0);
+                }
+            }
+    
+            for(auto &rect : rectangles) {
+                float dis = position.distance(rect->getPosition());
+                if(dis < minDis) rect->addRepulsionForce(position, 1.2);
+                rect->addAttractionPoint(position, 1.0);
+            }
         }
-        protagonist.addAttractionPoint(ofGetWidth()/2, ofGetHeight()/2,5.0);
-        ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
-        float minDis = ofGetMousePressed() ? 300 : 200;
-        
-        
-//        for(auto &circle : circles) {
-//            float dis = position.distance(circle->getPosition());
-//
-//            if(dis < minDis) {
-//                circle->addRepulsionForce(position, 0.5);
-//            }
-//            else {
-//                circle->addAttractionPoint(position, 1.0);
-//            }
-//        }
-//
-//        for(auto &rect : rectangles) {
-//            float dis = position.distance(rect->getPosition());
-//            if(dis < minDis) rect->addRepulsionForce(position, 1.2);
-//            rect->addAttractionPoint(position, 1.0);
-//        }
-        
-        
-        
-        for(auto &circle : circles) {
-            float dis = position.distance(circle->getPosition());
+        //if the user clicks "s" which stants for spread, the figures will be repuleld from the centre
+        else
+        {
+            ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
+            float minDis = ofGetMousePressed() ? 300 : 200;
+            
+            protagonist.addRepulsionForce(position,6.0);
+           
+            for(auto &circle : circles) {
+                float dis = position.distance(circle->getPosition());
 
-                circle->addRepulsionForce(position, 1.0);
-        }
-        
-        for(auto &rect : rectangles) {
-            float dis = position.distance(rect->getPosition());
-            //if(dis < minDis) rect->addAttractionPoint(position, 1.2);
-            rect->addRepulsionForce(position, 1.0);
+                    circle->addRepulsionForce(position, 6.0);
+            }
+            
+            for(auto &rect : rectangles) {
+                float dis = position.distance(rect->getPosition());
+                rect->addRepulsionForce(position, 6.0);
+            }
         }
 
 
@@ -499,6 +502,13 @@ void ofApp::keyPressed(int key){
     
     if(key == 'f'){
         finalStage = true;
+        gatherToCenter = true;
+        
+    }
+    if(key == 's')
+    {
+        finalStage = true;
+        gatherToCenter = false;
     }
     
 }
