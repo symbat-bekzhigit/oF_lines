@@ -39,7 +39,7 @@ In this phase, circles and rectangles with random colors will be generated from 
 
 In this phase, the protagonist will react to the collision by adding more circles in its tail and the color of the circle it adds will match that of the circle it collided with. This process of adding some feature to its body depending on the different kinds of experiences the protagonist goes through is what I mean by calling this phase "Adapt". For adding circles, or creating a "tail", I create a separate vector that will store the tail's circles and a vector that will store joints that will be joining the tail's circles to each other.
 
-![Screenshot from phase 2](bin/data/phase2.png)
+
 
 
 *Phase 3 - Evolve:*
