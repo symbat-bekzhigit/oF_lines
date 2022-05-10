@@ -157,7 +157,7 @@ void ofApp::update(){
         //randomly appearing circles
         if((int)ofRandom(0, 50) == 0) {
             auto c = std::make_shared<ofxBox2dCircle>();
-            c->setPhysics(1, 0.1, 0.9);
+            c->setPhysics(1, 0.5, 0.9);
             radius = ofRandom(20, 40);
             c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
 
@@ -175,7 +175,7 @@ void ofApp::update(){
             float w = ofRandom(20, 60);
             float h = ofRandom(20, 60);
             auto rect = std::make_shared<ofxBox2dRect>();
-            rect->setPhysics(3.0, 0.1, 0.9);
+            rect->setPhysics(3.0, 0.5, 0.9);
             rect->setup(box2d.getWorld(), ofGetWidth()-radius, ofRandom(ofGetHeight()), w, h);
             
             rect->setData(new ColorData());
@@ -197,7 +197,7 @@ void ofApp::update(){
         //randomly appearing circles
         if((int)ofRandom(0, 150) == 0) {
             auto c = std::make_shared<ofxBox2dCircle>();
-            c->setPhysics(1, 0.1, 0.9);
+            c->setPhysics(1, 0.5, 0.9);
             radius = ofRandom(10, 30);
             c->setup(box2d.getWorld(),ofGetWidth()-radius, ofRandom(ofGetHeight()), radius);
 
@@ -215,7 +215,7 @@ void ofApp::update(){
             float w = ofRandom(10, 40);
             float h = ofRandom(10, 40);
             auto rect = std::make_shared<ofxBox2dRect>();
-            rect->setPhysics(3.0, 0.1, 0.9);
+            rect->setPhysics(3.0, 0.5, 0.9);
             rect->setup(box2d.getWorld(), ofGetWidth()-radius, ofRandom(ofGetHeight()), w, h);
             
             rect->setData(new ColorData());
