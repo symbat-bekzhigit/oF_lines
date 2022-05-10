@@ -3,17 +3,6 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    bottomLeft.x = 0;
-    bottomLeft.y = ofGetHeight();
-    bottomRight.x = ofGetWidth();
-    bottomRight.y = ofGetHeight();
-    
-    topLeft.x = 0;
-    topLeft.y = 0;
-    topRight.x = ofGetWidth();
-    topRight.y = 0;
-    
-    
     ofSetBackgroundColor(255, 255, 255);
     ofSetLogLevel(OF_LOG_NOTICE);
     ofSetVerticalSync(true);
@@ -22,28 +11,28 @@ void ofApp::setup(){
     box2d.init();
     box2d.registerGrabbing();
     box2d.setGravity(gravityX, gravityY);
-
-    
     breakupIntoTriangles = true;
     bFill = false;
     
+    //set up the protagonist
     protagonist.setPhysics(0.3, 0.1, 0.1); //density, bounce, friction
     protagonist.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
 
     
     //phase 1 setup
+    
     // register the listener so that we get the events
     ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
     ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
 
-    
+    //populate our array of colors with 5 different colors
     colors[0].setHex(0xED7F8C);
     colors[1].setHex(0xFEFF35);
     colors[2].setHex(0x61C7C9);
     colors[3].setHex(0xD5EBF6);
     colors[4].setHex(0xBB8B1F);
 
-    
+    //get the color data of the protagonist
     protagonist.setData(new ColorData());
     auto * sd = (ColorData*)protagonist.getData();
     sd->color.r = 255;
@@ -54,7 +43,8 @@ void ofApp::setup(){
 
     
     //phase 2 setup
-    // first we add just a few circles
+    
+    // add just a few circles to the tails of the protagonist
     for (int i=0; i<1; i++) {
         auto circle = make_shared<ofxBox2dCircle>();
         circle->setPhysics(3.0, 0.1, 0.1); //desnity,bounce,fricition
@@ -82,13 +72,16 @@ void ofApp::setup(){
     finalStage = false;
     gatherToCenter = true;
    
+    //load the sound files and fonts
     mySound.load("Enchanted.mp3");
     mySound.play();
     
     explosion.load("explosion.mp3");
     
     introText.load("IndieFlower-Regular.ttf", 30);
+    introTextSmall.load("IndieFlower-Regular.ttf", 20);
     isIntroScreen = true;
+    
     
     endText.load("IndieFlower-Regular.ttf", 30);
     isEndScreen = false;
@@ -337,7 +330,6 @@ void ofApp::update(){
         //if the user clicks "s" which stants for spread, the figures will be repuleld from the centre
         else
         {
-//            explosion.play();
             
             ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
             float minDis = ofGetMousePressed() ? 300 : 200;
@@ -367,7 +359,8 @@ void ofApp::draw(){
     {
         ofSetBackgroundColor(255, 255, 255);
         ofSetColor(0, 0, 0);
-        introText.drawString("This is a story of a circle.", ofGetWidth()/4, ofGetHeight()/2);
+        introText.drawString("The story of a circle", ofGetWidth()/4+60, ofGetHeight()/2);
+        introTextSmall.drawString("A journey into the unknown", ofGetWidth()/4+90, ofGetHeight()/2+60);
         
     }
     
@@ -375,7 +368,7 @@ void ofApp::draw(){
     {
         ofSetBackgroundColor(255, 255, 255);
         ofSetColor(0, 0, 0);
-        endText.drawString("The End.", ofGetWidth()/2-60, ofGetHeight()/2);
+        endText.drawString("The End", ofGetWidth()/2-60, ofGetHeight()/2);
         
     }
     
