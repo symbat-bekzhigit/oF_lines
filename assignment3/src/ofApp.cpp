@@ -96,6 +96,7 @@ void ofApp::setup(){
     
     changeTheme = false;
     finalStage = false;
+    gatherToCenter = true;
     
 }
 
@@ -328,23 +329,47 @@ void ofApp::update(){
         
         //STOPPED HERE -- NEED TO FIX IT SO THAT PROTAGONIST WILL BE ATTRACTED TO CENTRE AND CIRCLES
        // AND TRINGLES WILL BE ATTRACTED TO PROTAGONIST...
-        protagonist.addAttractionPoint(ofGetWidth()/2, ofGetHeight()/2);
         
-        
-//        ofVec2f position(protagonist.getPosition().x, protagonist.getPosition().y);
+        if(gatherToCenter == true)
+        {
+            
+        }
+        protagonist.addAttractionPoint(ofGetWidth()/2, ofGetHeight()/2,5.0);
         ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
         float minDis = ofGetMousePressed() ? 300 : 200;
-
+        
+        
+//        for(auto &circle : circles) {
+//            float dis = position.distance(circle->getPosition());
+//
+//            if(dis < minDis) {
+//                circle->addRepulsionForce(position, 0.5);
+//            }
+//            else {
+//                circle->addAttractionPoint(position, 1.0);
+//            }
+//        }
+//
+//        for(auto &rect : rectangles) {
+//            float dis = position.distance(rect->getPosition());
+//            if(dis < minDis) rect->addRepulsionForce(position, 1.2);
+//            rect->addAttractionPoint(position, 1.0);
+//        }
+        
+        
+        
         for(auto &circle : circles) {
             float dis = position.distance(circle->getPosition());
 
-            if(dis < minDis) {
-                circle->addRepulsionForce(position, 0.5);
-            }
-            else {
-                circle->addAttractionPoint(position, 1.0);
-            }
+                circle->addRepulsionForce(position, 1.0);
         }
+        
+        for(auto &rect : rectangles) {
+            float dis = position.distance(rect->getPosition());
+            //if(dis < minDis) rect->addAttractionPoint(position, 1.2);
+            rect->addRepulsionForce(position, 1.0);
+        }
+
 
     }
 }
