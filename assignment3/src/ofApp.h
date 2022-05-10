@@ -6,13 +6,6 @@
 
 #define N_SOUNDS 5
 
-//class SoundData {
-//public:
-//    int     soundID;
-//    bool bHit;
-//};
-
-
 class ColorData {
 public:
     ofColor  color;
@@ -48,14 +41,12 @@ class ofApp : public ofBaseApp{
     vector <shared_ptr<ofxBox2dCircle>>   circles;
     vector <shared_ptr<ofxBox2dRect>>  rectangles;
     
-    ofxBox2dCircle circle;
     
     ofxBox2dCircle protagonist;
     
     float gravityX= -1.0;
     float gravityY= 0.0;
     
-    bool circle1;
     void applyForce(ofVec2f force,ofVec2f point);
     
     ofPoint bottomLeft;
@@ -63,9 +54,8 @@ class ofApp : public ofBaseApp{
     ofPoint topLeft;
     ofPoint topRight;
     
-    
-    //phase 1
     ofColor colors[5];
+    
     // this is the function for contacts
     void contactStart(ofxBox2dContactArgs &e);
     void contactEnd(ofxBox2dContactArgs &e);
@@ -76,9 +66,6 @@ class ofApp : public ofBaseApp{
     int index = 0;
     ofImage background1;
     
-    
-    //phase 2
-    ofxBox2dCircle anchor;              //    fixed anchor       //
     vector <shared_ptr<ofxBox2dJoint>> joints;
     vector <shared_ptr<ofxBox2dCircle>> circlesForJoints;
     vector <shared_ptr<ofxBox2dRect>> rectanglesForJoints;
