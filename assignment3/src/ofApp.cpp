@@ -33,7 +33,6 @@ void ofApp::setup(){
     protagonist.setup(box2d.getWorld(), ofGetWidth()/2, ofGetHeight()/2, 50);
 
     
-    
     //phase 1 setup
     // register the listener so that we get the events
     ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
@@ -46,13 +45,19 @@ void ofApp::setup(){
 //        sound[i].setLoop(false);
 //    }
     
-    for (int i=0; i<5; i++) {
-        colors[i].r = ofRandom(255);
-        colors[i].g = ofRandom(255);
-        colors[i].b = ofRandom(255);
-        
-    }
-    
+//    for (int i=0; i<5; i++) {
+//        colors[i].r = ofRandom(255);
+//        colors[i].g = ofRandom(255);
+//        colors[i].b = ofRandom(255);
+//
+//    }
+
+    colors[0].setHex(0xED7F8C);
+    colors[1].setHex(0xFEFF35);
+    colors[2].setHex(0x61C7C9);
+    colors[3].setHex(0xD5EBF6);
+    colors[4].setHex(0xBB8B1F);
+
     
     protagonist.setData(new ColorData());
     auto * sd = (ColorData*)protagonist.getData();
@@ -61,12 +66,9 @@ void ofApp::setup(){
     sd->color.b = 255;
     sd->bHit  = false;
     hitOnce = false;
-    
-    background1.load("citycolorful.jpeg");
-    
+
     
     //phase 2 setup
-
     // first we add just a few circles
     for (int i=0; i<1; i++) {
         auto circle = make_shared<ofxBox2dCircle>();
@@ -95,6 +97,8 @@ void ofApp::setup(){
     changeTheme = false;
     finalStage = false;
     gatherToCenter = true;
+    
+    //background1.load("bg1.jpg");
     
 }
 
@@ -179,7 +183,7 @@ void ofApp::contactEnd(ofxBox2dContactArgs &e) {
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    
     // remove shapes offscreen
     ofRemove(rectangles, [](shared_ptr<ofxBox2dRect> shape) -> bool {
         return !ofRectangle(0, -400, ofGetWidth(), ofGetHeight()+400).inside(shape->getPosition());
@@ -198,6 +202,8 @@ void ofApp::update(){
     //phase 1
     if(changeTheme == false and finalStage == false)
     {
+        background1.load("bg1.jpg");
+        
         //randomly appearing circles
         if((int)ofRandom(0, 50) == 0) {
             auto c = std::make_shared<ofxBox2dCircle>();
@@ -235,6 +241,8 @@ void ofApp::update(){
     //phase 2
     else if(changeTheme == true and finalStage == false)
     {
+        background1.load("bg2.jpg");
+        
         //randomly appearing circles
         if((int)ofRandom(0, 150) == 0) {
             auto c = std::make_shared<ofxBox2dCircle>();
@@ -302,6 +310,8 @@ void ofApp::update(){
 //    if(finalStage == true)
     else
     {
+        background1.load("bg3.jpg");
+        
         for (int i=0; i<joints.size(); i++) {
             joints.pop_back();
         }
