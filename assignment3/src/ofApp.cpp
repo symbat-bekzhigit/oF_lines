@@ -197,8 +197,8 @@ void ofApp::update(){
 
     
     
-    
-    if(changeTheme == false and finalStage == false) //phase 1
+    //phase 1
+    if(changeTheme == false)
     {
         //randomly appearing circles
         if((int)ofRandom(0, 50) == 0) {
@@ -233,7 +233,9 @@ void ofApp::update(){
         }
     }
     
-    else //phase 2
+    
+    //phase 2
+    else if(changeTheme == true)
     {
         //randomly appearing circles
         if((int)ofRandom(0, 150) == 0) {
@@ -266,37 +268,67 @@ void ofApp::update(){
             
             rectangles.push_back(rect);
         }
+        
+        
+        ColorData * data = (ColorData*)protagonist.getData();
+        if((changeTheme == true) && (data && data->bHit))
+        {
+            // add a new circle
+            auto circle = make_shared<ofxBox2dCircle>();
+            circle->setPhysics(3.0, 0.1, 0.1);
+            circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
+            
+            circle->setData(new ColorData());
+            auto * sd = (ColorData*)circle->getData();
+            sd->color = changeTo;
+            sd->bHit    = false;
+            
+            circlesForJoints.push_back(circle);
+        
+            // get this cirlce and the prev cirlce
+            int a = (int)circlesForJoints.size()-2;
+            int b = (int)circlesForJoints.size()-1;
+
+            // now connect the new circle with a joint
+            auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
+            joint.get()->setLength(25);
+            joints.push_back(joint);
+            
+            data->bHit = false; //sometimes when the contact is too long, it will keep adding new joints, so i chnage bhit to false
+        }
+        
+        
     }
   
     
     
-    ColorData * data = (ColorData*)protagonist.getData();
-    if((changeTheme == true) && (data && data->bHit))
-    {
-        // add a new circle
-        auto circle = make_shared<ofxBox2dCircle>();
-        circle->setPhysics(3.0, 0.1, 0.1);
-        circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
-        
-        circle->setData(new ColorData());
-        auto * sd = (ColorData*)circle->getData();
-        sd->color = changeTo;
-        sd->bHit    = false;
-        
-        circlesForJoints.push_back(circle);
-    
-        // get this cirlce and the prev cirlce
-        int a = (int)circlesForJoints.size()-2;
-        int b = (int)circlesForJoints.size()-1;
-
-        // now connect the new circle with a joint
-        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
-        joint.get()->setLength(25);
-        joints.push_back(joint);
-        
-        data->bHit = false; //sometimes when the contact is too long, it will keep adding new joints, so i chnage bhit to false
-    }
-    
+//    ColorData * data = (ColorData*)protagonist.getData();
+//    if((changeTheme == true) && (data && data->bHit))
+//    {
+//        // add a new circle
+//        auto circle = make_shared<ofxBox2dCircle>();
+//        circle->setPhysics(3.0, 0.1, 0.1);
+//        circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
+//
+//        circle->setData(new ColorData());
+//        auto * sd = (ColorData*)circle->getData();
+//        sd->color = changeTo;
+//        sd->bHit    = false;
+//
+//        circlesForJoints.push_back(circle);
+//
+//        // get this cirlce and the prev cirlce
+//        int a = (int)circlesForJoints.size()-2;
+//        int b = (int)circlesForJoints.size()-1;
+//
+//        // now connect the new circle with a joint
+//        auto joint = make_shared<ofxBox2dJoint>(box2d.getWorld(), circlesForJoints[a]->body, circlesForJoints[b]->body);
+//        joint.get()->setLength(25);
+//        joints.push_back(joint);
+//
+//        data->bHit = false; //sometimes when the contact is too long, it will keep adding new joints, so i chnage bhit to false
+//    }
+//
     //phase 3
     if(finalStage == true)
     {
@@ -310,24 +342,7 @@ void ofApp::update(){
         }
         
         changeTheme = false;
-        
-        
-//        ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
-//        float minDis = ofGetMousePressed() ? 300 : 200;
-//
-//        for(auto &circle : circlesForJoints) {
-//            float dis = mouse.distance(circle->getPosition());
-//
-//            if(dis < minDis) {
-//                circle->addRepulsionForce(mouse, 1.2);
-//            }
-//            else {
-//                circle->addAttractionPoint(mouse, 1.0);
-//            }
-//        }
-        
-        //STOPPED HERE -- NEED TO FIX IT SO THAT PROTAGONIST WILL BE ATTRACTED TO CENTRE AND CIRCLES
-       // AND TRINGLES WILL BE ATTRACTED TO PROTAGONIST...
+
         
         if(gatherToCenter == true)
         {
