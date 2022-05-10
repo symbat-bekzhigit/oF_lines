@@ -300,7 +300,6 @@ void ofApp::update(){
     //phase 3
     if(finalStage == true)
     {
-    
         for (int i=0; i<joints.size(); i++) {
             joints.pop_back();
         }
@@ -327,9 +326,13 @@ void ofApp::update(){
 //            }
 //        }
         
-        //STOPPED HERE -- NEED TO FIX IT SO THAT IPROTAGONIST WILL BE ATTRACTED TO CENTRE AND CIRCLES
+        //STOPPED HERE -- NEED TO FIX IT SO THAT PROTAGONIST WILL BE ATTRACTED TO CENTRE AND CIRCLES
        // AND TRINGLES WILL BE ATTRACTED TO PROTAGONIST...
-        ofVec2f position(protagonist.getPosition().x, protagonist.getPosition().y);
+        protagonist.addAttractionPoint(ofGetWidth()/2, ofGetHeight()/2);
+        
+        
+//        ofVec2f position(protagonist.getPosition().x, protagonist.getPosition().y);
+        ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
         float minDis = ofGetMousePressed() ? 300 : 200;
 
         for(auto &circle : circles) {
