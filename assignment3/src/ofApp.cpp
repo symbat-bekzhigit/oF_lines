@@ -1,5 +1,12 @@
 #include "ofApp.h"
 
+
+//Some parts of the below code were adapted from the example animations provided in the description
+//of the addon ofBox2D
+//Title: ofxBox2D addon
+//Author: vanderlin
+//From: github.com
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     
