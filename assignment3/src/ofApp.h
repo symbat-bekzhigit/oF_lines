@@ -91,5 +91,7 @@ class ofApp : public ofBaseApp{
     bool finalStage;
     bool gatherToCenter;
     
+    ofSoundPlayer mySound;
+    ofSoundPlayer explosion;
 		
 };
