@@ -90,7 +90,8 @@ void ofApp::setup(){
     box2d.enableEvents();
 }
 
-
+//--------------------------------------------------------------
+//function for capturing the start of the collsision
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
         
@@ -114,7 +115,7 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
 
 
 //--------------------------------------------------------------
-
+//function for capturing the end of the collsision
 void ofApp::contactEnd(ofxBox2dContactArgs &e) {
     if(e.a != NULL && e.b != NULL) {
         
@@ -144,11 +145,11 @@ void ofApp::update(){
     
     box2d.update();
     
-    ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
+//    ofVec2f mouse(ofGetMouseX(), ofGetMouseY());
     protagonist.addAttractionPoint(ofGetWidth()/2,ofGetHeight()/2,1.1);
-
     
-    //phase 1
+    //phase 1 - react
+    //in this phase, protagonist will react to collision by changing its color the the color of the circle it collided with
     if(changeTheme == false and finalStage == false)
     {
         background1.load("bg1.jpg");
@@ -187,7 +188,8 @@ void ofApp::update(){
     }
     
     
-    //phase 2
+    //phase 2 - adapt
+    //in this phase, protagonist will react to collision by adding more circles in its tail
     else if(changeTheme == true and finalStage == false)
     {
         background1.load("bg2.jpg");
@@ -224,8 +226,10 @@ void ofApp::update(){
             rectangles.push_back(rect);
         }
         
-        
+        //in the phase 2, protagonist will react to collision by adding more circles in its tail whose color correspond to the color of the object it collided with
         ColorData * data = (ColorData*)protagonist.getData();
+        
+        //if protagonist collided with some other circle..
         if((changeTheme == true) && (data && data->bHit))
         {
             // add a new circle
@@ -233,11 +237,13 @@ void ofApp::update(){
             circle->setPhysics(3.0, 0.1, 0.1);
             circle->setup(box2d.getWorld(), circlesForJoints.back()->getPosition().x+ofRandom(-30, 30), circlesForJoints.back()->getPosition().y-30, 8);
             
+            //records the color data of the circle
             circle->setData(new ColorData());
             auto * sd = (ColorData*)circle->getData();
             sd->color = changeTo;
             sd->bHit    = false;
             
+            //push back the cirlce to the corresponsing vector
             circlesForJoints.push_back(circle);
         
             // get this cirlce and the prev cirlce
@@ -255,12 +261,13 @@ void ofApp::update(){
         
     }
   
-    //phase 3
-//    if(finalStage == true)
+    //phase 3 - evolve
+    //in this phase, protagonist will be attracted to the center and the floating cirles and rectangles will be attracted to a protagonist
     else
     {
         background1.load("bg3.jpg");
         
+        //remove the the tail and teh joints
         for (int i=0; i<joints.size(); i++) {
             joints.pop_back();
         }
@@ -271,6 +278,7 @@ void ofApp::update(){
         changeTheme = false;
 
         
+        //in this stage, random circles and rectangles will keep being generated
         if(gatherToCenter == true)
         {
             //randomly appearing circles
@@ -305,11 +313,13 @@ void ofApp::update(){
                 rectangles.push_back(rect);
             }
             
+            //protagonsit willl be attracted to teh center
             protagonist.addAttractionPoint(ofGetWidth()/2, ofGetHeight()/2,5.0);
             ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
             float minDis = ofGetMousePressed() ? 300 : 200;
             
             
+            //other objects will be attracted to the center too, surrounding the protagonist
             for(auto &circle : circles) {
                 float dis = position.distance(circle->getPosition());
     
@@ -327,13 +337,15 @@ void ofApp::update(){
                 rect->addAttractionPoint(position, 1.0);
             }
         }
-        //if the user clicks "s" which stants for spread, the figures will be repuleld from the centre
+        
+        //if the user clicks "s" which stants for spread, the figures will be repulled from the centre
         else
         {
             
             ofVec2f position(ofGetWidth()/2, ofGetHeight()/2);
             float minDis = ofGetMousePressed() ? 300 : 200;
             
+            //add repulsion force from the center
             protagonist.addRepulsionForce(position,6.0);
            
             for(auto &circle : circles) {
@@ -355,6 +367,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
      
+    //draw this for an intro screen
     if(isIntroScreen == true)
     {
         ofSetBackgroundColor(255, 255, 255);
@@ -364,6 +377,7 @@ void ofApp::draw(){
         
     }
     
+    //draw this for the end screen
     else if(isEndScreen == true)
     {
         ofSetBackgroundColor(255, 255, 255);
@@ -372,58 +386,62 @@ void ofApp::draw(){
         
     }
     
+    //main story screen
     else {
         
-    ofSetColor(255, 255, 255);
-    background1.draw(0,0,ofGetWidth(),ofGetHeight());
-
-    
-    for(size_t i=0; i<circles.size(); i++) {
-        ofFill();
-        ColorData * data = (ColorData*)circles[i].get()->getData();
-        ofSetColor(colors[data->colorID]);
-        circles[i].get()->draw();
-        
-    }
-    
-    for(size_t i=0; i<rectangles.size(); i++) {
-        ofFill();
-        ColorData * data = (ColorData*)rectangles[i].get()->getData();
-        ofSetColor(colors[data->colorID]);
-        rectangles[i].get()->draw();
-        
-    }
-
-    
-    if(changeTheme == false)
-    {
-        ofFill();
-        ColorData * data = (ColorData*)protagonist.getData();
-        if(data && data->bHit)  ofSetColor(changeTo);
-        else ofSetColor(255, 255, 255);
-        protagonist.draw();
-    }
-    
-    else if(changeTheme == true)
-    {
-        ofFill();
         ofSetColor(255, 255, 255);
-        protagonist.draw();
+        background1.draw(0,0,ofGetWidth(),ofGetHeight());
+
         
-        for(auto &circle : circlesForJoints) {
+        //draw randomly appearing circles and rectangles
+        for(size_t i=0; i<circles.size(); i++) {
             ofFill();
-            ColorData * data = (ColorData*)circle->getData();
-            ofSetColor(data->color);
-            circle->draw();
+            ColorData * data = (ColorData*)circles[i].get()->getData();
+            ofSetColor(colors[data->colorID]);
+            circles[i].get()->draw();
+            
         }
         
+        for(size_t i=0; i<rectangles.size(); i++) {
+            ofFill();
+            ColorData * data = (ColorData*)rectangles[i].get()->getData();
+            ofSetColor(colors[data->colorID]);
+            rectangles[i].get()->draw();
+            
+        }
+
         
-        for(auto &joint : joints) {
-            ofSetColor(0x444342);
-            joint->draw();
+        //1st phase
+        if(changeTheme == false)
+        {
+            ofFill();
+            ColorData * data = (ColorData*)protagonist.getData();
+            if(data && data->bHit)  ofSetColor(changeTo);
+            else ofSetColor(255, 255, 255);
+            protagonist.draw();
         }
         
-    }
+        //2nd phase
+        else if(changeTheme == true)
+        {
+            ofFill();
+            ofSetColor(255, 255, 255);
+            protagonist.draw();
+            
+            for(auto &circle : circlesForJoints) {
+                ofFill();
+                ColorData * data = (ColorData*)circle->getData();
+                ofSetColor(data->color);
+                circle->draw();
+            }
+            
+            
+            for(auto &joint : joints) {
+                ofSetColor(0x444342);
+                joint->draw();
+            }
+            
+        }
     }
 
 }
@@ -475,7 +493,7 @@ void ofApp::keyPressed(int key){
         gatherToCenter = false;
         explosion.play();
     }
-    if(key == 'x') //manipulating entr/exit screens
+    if(key == 'x') //for switching between entry/exit screens
     {
         if(counter == 0) //exit intro screen
         {
