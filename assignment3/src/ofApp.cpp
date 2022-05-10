@@ -97,8 +97,11 @@ void ofApp::setup(){
     changeTheme = false;
     finalStage = false;
     gatherToCenter = true;
+   
+    mySound.load("Enchanted.mp3");
+    mySound.play();
     
-    //background1.load("bg1.jpg");
+    explosion.load("Enchanted.mp3")
     
 }
 
