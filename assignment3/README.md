@@ -1,4 +1,4 @@
-# Assignment 3 -  Story of a circle
+# Assignment 3 -  The story of a circle: A journey into the unknown
 
 In this assignment, I tell the story of adapting to a new environment (or overcoming a crisis) through the use of the features of the ofBox2D addon.
 The main protagonist of this story is a white circle and the story consists of 3 phases: React, Adapt, and Evolve.
