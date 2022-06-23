@@ -1,4 +1,4 @@
-# Light at the end of the tunnel
+# Sketch 1
 
 This is openFrameworks application that makes a drawing with lines and points that can be controlled by sliders. The way the lines interact under certain parameters creates the feeling of being in a 3d space - something similar to a tunnel - and the dense distribution of those lines near the center results in a bright rectangular spot right at the center of the window, that's why I decided to name the project 'Light at the end of the tunnel'.
 
